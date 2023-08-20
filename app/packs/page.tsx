@@ -8,18 +8,15 @@ import { StaticImageData } from "next/image";
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import Modal from "@/components/modal";
-import CardBack from "@/components/card-back";
 import ReactFlipCard from "reactjs-flip-card";
+import Card from "@/components/card";
+import dog from "@/public/images/dog.jpeg";
 
 export default function PacksPage() {
   const [selectedPack, setSelectedPack] = useState<StaticImageData | null>(
     null
   );
   const [open, setOpen] = useState(false);
-
-  const styles = {
-    card: { background: "blue", color: "white", borderRadius: 20 },
-  };
 
   console.log("selectedPack: ", selectedPack);
 
@@ -44,6 +41,57 @@ export default function PacksPage() {
       img: epicPack,
       description: "에픽 카드팩입니다",
       price: 3000,
+    },
+  ];
+
+  const cardData = [
+    {
+      id: "1",
+      label: "춤추는 강아지",
+      img: dog,
+      tier: "nomal",
+      description:
+        "이것은 춤추는 강아지입니다 그날의 기분에 맞춰 춤추는 모습이 신나보이네요",
+    },
+    {
+      id: "2",
+      label: "춤추는 강아지",
+      img: dog,
+      tier: "nomal",
+      description:
+        "이것은 춤추는 강아지입니다 그날의 기분에 맞춰 춤추는 모습이 신나보이네요",
+    },
+    {
+      id: "3",
+      label: "춤추는 강아지",
+      img: dog,
+      tier: "nomal",
+      description:
+        "이것은 춤추는 강아지입니다 그날의 기분에 맞춰 춤추는 모습이 신나보이네요",
+    },
+    {
+      id: "4",
+      label: "춤추는 강아지",
+      img: dog,
+      tier: "nomal",
+      description:
+        "이것은 춤추는 강아지입니다 그날의 기분에 맞춰 춤추는 모습이 신나보이네요",
+    },
+    {
+      id: "5",
+      label: "춤추는 강아지",
+      img: dog,
+      tier: "nomal",
+      description:
+        "이것은 춤추는 강아지입니다 그날의 기분에 맞춰 춤추는 모습이 신나보이네요",
+    },
+    {
+      id: "6",
+      label: "춤추는 강아지",
+      img: dog,
+      tier: "nomal",
+      description:
+        "이것은 춤추는 강아지입니다 그날의 기분에 맞춰 춤추는 모습이 신나보이네요",
     },
   ];
 
@@ -83,24 +131,19 @@ export default function PacksPage() {
       <Modal
         isOpen={open}
         onOpenChange={setOpen}
-        className="border-none shadow-none bg-transparent min-w-full h-full flex justify-center item-center "
+        className="border-none shadow-none bg-transparent h-full flex justify-center item-center"
         disbleClose
       >
         <div className="border-black flex flex-col justify-between items-center h-full py-8">
-          <div className="grid grid-flow-col grid-rows-2 gap-16">
-            <ReactFlipCard
-              // frontStyle={styles.card}
-              // backStyle={styles.card}
-              flipTrigger="onClick"
-              frontComponent={<div>Hover me!</div>}
-              backComponent={<CardBack />}
-            />
-            {/* <CardBack />
-            <CardBack />
-            <CardBack />
-            <CardBack />
-            <CardBack />
-            <CardBack /> */}
+          <div className="grid grid-flow-col grid-rows-2 gap-56 mr-24">
+            {cardData.map((card) => (
+              <ReactFlipCard
+                key={card.id}
+                flipTrigger="onClick"
+                frontComponent={<Card.front />}
+                backComponent={<Card.back card={card} />}
+              />
+            ))}
           </div>
           <Button
             onClick={() => setOpen(false)}
