@@ -49,7 +49,7 @@ export default function PacksPage() {
       id: "1",
       label: "춤추는 강아지",
       img: dog,
-      tier: "nomal",
+      tier: "normal",
       description:
         "이것은 춤추는 강아지입니다 그날의 기분에 맞춰 춤추는 모습이 신나보이네요",
     },
@@ -57,7 +57,7 @@ export default function PacksPage() {
       id: "2",
       label: "춤추는 강아지",
       img: dog,
-      tier: "nomal",
+      tier: "normal",
       description:
         "이것은 춤추는 강아지입니다 그날의 기분에 맞춰 춤추는 모습이 신나보이네요",
     },
@@ -65,7 +65,7 @@ export default function PacksPage() {
       id: "3",
       label: "춤추는 강아지",
       img: dog,
-      tier: "nomal",
+      tier: "normal",
       description:
         "이것은 춤추는 강아지입니다 그날의 기분에 맞춰 춤추는 모습이 신나보이네요",
     },
@@ -73,7 +73,7 @@ export default function PacksPage() {
       id: "4",
       label: "춤추는 강아지",
       img: dog,
-      tier: "nomal",
+      tier: "normal",
       description:
         "이것은 춤추는 강아지입니다 그날의 기분에 맞춰 춤추는 모습이 신나보이네요",
     },
@@ -81,7 +81,7 @@ export default function PacksPage() {
       id: "5",
       label: "춤추는 강아지",
       img: dog,
-      tier: "nomal",
+      tier: "normal",
       description:
         "이것은 춤추는 강아지입니다 그날의 기분에 맞춰 춤추는 모습이 신나보이네요",
     },
@@ -89,7 +89,7 @@ export default function PacksPage() {
       id: "6",
       label: "춤추는 강아지",
       img: dog,
-      tier: "nomal",
+      tier: "normal",
       description:
         "이것은 춤추는 강아지입니다 그날의 기분에 맞춰 춤추는 모습이 신나보이네요",
     },
