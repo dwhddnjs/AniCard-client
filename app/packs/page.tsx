@@ -9,12 +9,17 @@ import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import Modal from "@/components/modal";
 import CardBack from "@/components/card-back";
+import ReactFlipCard from "reactjs-flip-card";
 
 export default function PacksPage() {
   const [selectedPack, setSelectedPack] = useState<StaticImageData | null>(
     null
   );
   const [open, setOpen] = useState(false);
+
+  const styles = {
+    card: { background: "blue", color: "white", borderRadius: 20 },
+  };
 
   console.log("selectedPack: ", selectedPack);
 
@@ -83,12 +88,19 @@ export default function PacksPage() {
       >
         <div className="border-black flex flex-col justify-between items-center h-full py-8">
           <div className="grid grid-flow-col grid-rows-2 gap-16">
+            <ReactFlipCard
+              // frontStyle={styles.card}
+              // backStyle={styles.card}
+              flipTrigger="onClick"
+              frontComponent={<div>Hover me!</div>}
+              backComponent={<CardBack />}
+            />
+            {/* <CardBack />
             <CardBack />
             <CardBack />
             <CardBack />
             <CardBack />
-            <CardBack />
-            <CardBack />
+            <CardBack /> */}
           </div>
           <Button
             onClick={() => setOpen(false)}
