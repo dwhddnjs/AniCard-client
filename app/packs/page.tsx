@@ -89,7 +89,7 @@ export default function PacksPage() {
       id: "6",
       label: "춤추는 강아지",
       img: dog,
-      tier: "normal",
+      tier: "rare",
       description:
         "이것은 춤추는 강아지입니다 그날의 기분에 맞춰 춤추는 모습이 신나보이네요",
     },
