@@ -7,29 +7,24 @@ export type AxiosParams = {
   headers?: RawAxiosRequestHeaders;
 };
 
-const token = localStorage.getItem("access-token");
-
-const apiClient = axios.create({
-  headers: {
-    "Access-Control-Allow-Origin": "*",
-    "Access-Control-Allow-Headers": "Content-Type",
-    "Content-Type": "application/json",
-    Authorization: token
-      ? `Bearer ${localStorage.getItem("access-token")}`
-      : undefined,
-  },
-  baseURL: process.env.NEXT_PUBLIC_API_URL,
-});
-
 const baseFetch = async ({ url, method, data, headers }: AxiosParams) => {
+  const token = localStorage.getItem("access-token");
+
   const request = {
+    baseURL: process.env.NEXT_PUBLIC_API_URL,
     url,
     method,
     data,
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: token
+        ? `Bearer ${localStorage.getItem("access-token")}`
+        : undefined,
+    },
   };
 
   try {
-    const result = await apiClient(request);
+    const result = await axios(request);
     return result?.data;
   } catch (error) {
     console.log("요청 실패", request);
