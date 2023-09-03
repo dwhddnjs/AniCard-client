@@ -16,6 +16,7 @@ import { useForm } from "react-hook-form";
 import { Input } from "@/components/ui/input";
 import { fetcher, postRequest } from "@/common/axios";
 import { Button } from "@/components/ui/button";
+import { API_KEYS } from "@/common/apiKeys";
 
 function LoginPage() {
   const formSchema = z.object({
@@ -40,7 +41,7 @@ function LoginPage() {
       password: values.password,
     };
     try {
-      const response = await postRequest("/auth/login", requestBody);
+      const response = await postRequest(API_KEYS.login, requestBody);
       localStorage.setItem("access-token", response?.tokens?.access_token);
       localStorage.setItem("refresh-token", response?.tokens?.refresh_token);
     } catch (error) {

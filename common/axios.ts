@@ -7,20 +7,21 @@ export type AxiosParams = {
   headers?: RawAxiosRequestHeaders;
 };
 
-const baseFetch = async ({ url, method, data, headers }: AxiosParams) => {
-  const token = localStorage.getItem("access-token");
-  const apiClient = axios.create({
-    headers: {
-      "Access-Control-Allow-Origin": "*",
-      "Access-Control-Allow-Headers": "Content-Type",
-      "Content-Type": "application/json",
-      Authorization: token
-        ? `Bearer ${localStorage.getItem("access-token")}`
-        : undefined,
-    },
-    baseURL: `${process.env.NEXT_PUBLIC_API_URL}/api/v1`,
-  });
+const token = localStorage.getItem("access-token");
 
+const apiClient = axios.create({
+  headers: {
+    "Access-Control-Allow-Origin": "*",
+    "Access-Control-Allow-Headers": "Content-Type",
+    "Content-Type": "application/json",
+    Authorization: token
+      ? `Bearer ${localStorage.getItem("access-token")}`
+      : undefined,
+  },
+  baseURL: process.env.NEXT_PUBLIC_API_URL,
+});
+
+const baseFetch = async ({ url, method, data, headers }: AxiosParams) => {
   const request = {
     url,
     method,
