@@ -1,7 +1,94 @@
+"use client";
+
 import React from "react";
+import { zodResolver } from "@hookform/resolvers/zod";
+import * as z from "zod";
+import {
+  Form,
+  FormControl,
+  FormDescription,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "@/components/ui/form";
+import { useForm } from "react-hook-form";
+import { Input } from "@/components/ui/input";
+import { fetcher, postRequest } from "@/common/axios";
+import { Button } from "@/components/ui/button";
 
 function LoginPage() {
-  return <div>page</div>;
+  const formSchema = z.object({
+    email: z
+      .string()
+      .min(1, { message: "최소 1글자 이상 작성해주세요" })
+      .email("이메일 주소가 유효하지 않습니다"),
+    password: z.string().min(7),
+  });
+
+  const form = useForm<z.infer<typeof formSchema>>({
+    resolver: zodResolver(formSchema),
+    defaultValues: {
+      email: "",
+      password: "",
+    },
+  });
+
+  const onSubmit = async (values: z.infer<typeof formSchema>) => {
+    const requestBody = {
+      email: values.email,
+      password: values.password,
+    };
+    try {
+      const response = await postRequest("/auth/login", requestBody);
+      localStorage.setItem("access-token", response?.tokens?.access_token);
+      localStorage.setItem("refresh-token", response?.tokens?.refresh_token);
+    } catch (error) {
+      console.log("request", error);
+    }
+    return;
+  };
+
+  return (
+    <div className="flex justify-center items-center border-black border-2 h-screen">
+      <div className="border-2 border-black w-[400px] h-[500px]">
+        <Form {...form}>
+          <form
+            onSubmit={form.handleSubmit(onSubmit)}
+            onChange={() => console.log(form.getValues())}
+          >
+            <FormField
+              control={form.control}
+              name="email"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>email</FormLabel>
+                  <FormControl>
+                    <Input {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="password"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>password</FormLabel>
+                  <FormControl>
+                    <Input {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <Button type="submit">로그인</Button>
+          </form>
+        </Form>
+      </div>
+    </div>
+  );
 }
 
 export default LoginPage;
