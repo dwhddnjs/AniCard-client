@@ -17,9 +17,7 @@ const baseFetch = async ({ url, method, data, headers }: AxiosParams) => {
     data,
     headers: {
       "Content-Type": "application/json",
-      Authorization: token
-        ? `Bearer ${localStorage.getItem("access-token")}`
-        : undefined,
+      Authorization: token ? `Bearer ${token}` : undefined,
     },
   };
 
