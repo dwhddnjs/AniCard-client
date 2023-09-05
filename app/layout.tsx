@@ -3,6 +3,7 @@ import "./globals.css";
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import { useParams } from "next/navigation";
+import ReactQueryProvider from "@/providers/react-query-provider";
 
 const font = Inter({ subsets: ["latin"] });
 
@@ -19,8 +20,10 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={font.className}>
-        <MainHeader />
-        {children}
+        <ReactQueryProvider>
+          <MainHeader />
+          {children}
+        </ReactQueryProvider>
       </body>
     </html>
   );

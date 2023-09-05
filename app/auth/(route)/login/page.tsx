@@ -17,8 +17,15 @@ import { Input } from "@/components/ui/input";
 import { fetcher, postRequest } from "@/common/axios";
 import { Button } from "@/components/ui/button";
 import { API_KEYS } from "@/common/apiKeys";
+import { useMutation } from "react-query";
+import { useRouter } from "next/navigation";
+import { usePostMutation } from "@/hooks/usePostMutation";
 
 function LoginPage() {
+  const { trigger, isLoading, isError } = usePostMutation(API_KEYS.login);
+
+  const { push } = useRouter();
+
   const formSchema = z.object({
     email: z
       .string()
@@ -40,13 +47,23 @@ function LoginPage() {
       email: values.email,
       password: values.password,
     };
+
     try {
-      const response = await postRequest(API_KEYS.login, requestBody);
-      localStorage.setItem("access-token", response?.tokens?.access_token);
-      localStorage.setItem("refresh-token", response?.tokens?.refresh_token);
+      const response = await trigger(requestBody);
+      localStorage.setItem(
+        "access-token",
+        response?.data?.tokens?.access_token
+      );
+      localStorage.setItem(
+        "refresh-token",
+        response?.data?.tokens?.refresh_token
+      );
     } catch (error) {
       console.log("request", error);
+    } finally {
+      push("/shop");
     }
+
     return;
   };
 
@@ -84,7 +101,9 @@ function LoginPage() {
                 </FormItem>
               )}
             />
-            <Button type="submit">로그인</Button>
+            <Button type="submit" disabled={isLoading}>
+              로그인
+            </Button>
           </form>
         </Form>
       </div>

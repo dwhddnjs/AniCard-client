@@ -16,8 +16,13 @@ import { Button } from "@/components/ui/button";
 import { useForm } from "react-hook-form";
 import { postRequest } from "@/common/axios";
 import { API_KEYS } from "@/common/apiKeys";
+import { usePostMutation } from "@/hooks/usePostMutation";
+import { useRouter } from "next/navigation";
 
 function SignupPage() {
+  const { trigger, isLoading } = usePostMutation(API_KEYS.signup);
+  const { push } = useRouter();
+
   const formSchema = z.object({
     name: z.string().min(2, {
       message: "최소 2글자 이상 작성해주세요",
@@ -47,11 +52,19 @@ function SignupPage() {
       password: values.password,
     };
     try {
-      const response = await postRequest(API_KEYS.signup, requestBody);
-      localStorage.setItem("access-token", response?.tokens?.access_token);
-      localStorage.setItem("refresh-token", response?.tokens?.refresh_token);
+      const response = await trigger(requestBody);
+      localStorage.setItem(
+        "access-token",
+        response?.data?.tokens?.access_token
+      );
+      localStorage.setItem(
+        "refresh-token",
+        response?.data?.tokens?.refresh_token
+      );
     } catch (error) {
       console.log("request", error);
+    } finally {
+      push("/auth/login");
     }
     return;
   };
@@ -116,7 +129,9 @@ function SignupPage() {
                 </FormItem>
               )}
             />
-            <Button type="submit">회원가입</Button>
+            <Button type="submit" disabled={isLoading}>
+              회원가입
+            </Button>
           </form>
         </Form>
       </div>
