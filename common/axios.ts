@@ -38,4 +38,16 @@ const postRequest = (url: string, arg: any) => {
   return baseFetch({ url, method: "POST", data: arg });
 };
 
-export { fetcher, postRequest };
+const patchRequest = (url: string, arg: any) => {
+  return baseFetch({ url, method: "PATCH", data: arg });
+};
+
+const putRequest = (url: string, arg: any) => {
+  return baseFetch({ url, method: "PUT", data: arg });
+};
+
+const deleteRequest = (url: string, arg: any) => {
+  return baseFetch({ url, method: "DELETE", data: arg });
+};
+
+export { fetcher, postRequest, patchRequest, putRequest, deleteRequest };
