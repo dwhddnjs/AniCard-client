@@ -18,8 +18,6 @@ export default function PacksPage() {
   );
   const [open, setOpen] = useState(false);
 
-  console.log("selectedPack: ", selectedPack);
-
   const cardPack = [
     {
       id: "1",
