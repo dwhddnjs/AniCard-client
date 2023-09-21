@@ -24,7 +24,11 @@ const MainHeader = ({
     },
   ];
 
-  if (pathname !== "/auth/login" && pathname !== "/auth/signup") {
+  if (
+    pathname !== "/auth/login" &&
+    pathname !== "/auth/signup" &&
+    pathname !== "/"
+  ) {
     return (
       <div
         className="w-full flex items-center border px-6 h-16 space-x-10

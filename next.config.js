@@ -4,7 +4,7 @@ const nextConfig = {
     return [
       {
         source: "/",
-        destination: "/shop",
+        destination: "/auth/login",
       },
     ];
   },

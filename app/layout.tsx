@@ -4,6 +4,7 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import { useParams } from "next/navigation";
 import ReactQueryProvider from "@/providers/react-query-provider";
+import AuthProvider from "@/providers/auth-provider";
 
 const font = Inter({ subsets: ["latin"] });
 
@@ -21,8 +22,10 @@ export default function RootLayout({
     <html lang="en">
       <body className={font.className}>
         <ReactQueryProvider>
-          <MainHeader />
-          {children}
+          <AuthProvider>
+            <MainHeader />
+            {children}
+          </AuthProvider>
         </ReactQueryProvider>
       </body>
     </html>
