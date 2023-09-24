@@ -17,35 +17,42 @@ export default function AuthProvider({
     const token = localStorage.getItem("access-token") as string;
     const refreshToken = localStorage.getItem("refresh-token") as string;
 
-    if (!token) {
-      replace("/auth/login");
-    }
+    if (token) {
+      const decodedToken = jwt.verify(
+        token,
+        process.env.NEXT_PUBLIC_ACCESS_SECRET_KEY as string
+      ) as { exp: number };
 
-    if (token && refreshToken) {
-      try {
-        const decodedToken = jwt.verify(
-          token,
-          process.env.NEXT_PUBLIC_ACCESS_SECRET_KEY as string
-        ) as any;
+      const currentTimestamp = Math.floor(Date.now() / 1000);
 
-        console.log("decodedToken: ", decodedToken);
-
-        const currentTimestamp = Math.floor(Date.now() / 1000);
-
-        if (decodedToken.exp <= currentTimestamp) {
-          axios({
-            url: `${process.env.NEXT_PUBLIC_API_URL}${API_KEYS.refresh}`,
-            method: "post",
-            headers: {
-              Authorization: `Refresh ${refreshToken}`,
-            },
-          }).then((res) => {
-            console.log(res);
+      if (decodedToken.exp >= currentTimestamp) {
+        axios({
+          url: `${process.env.NEXT_PUBLIC_API_URL}${API_KEYS.refresh}`,
+          method: "post",
+          headers: {
+            Authorization: `Refresh ${refreshToken}`,
+          },
+        })
+          .then((res) => {
+            if (res.data) {
+              console.log("res.data: ", res.data);
+              localStorage.setItem(
+                "access-token",
+                res?.data?.data.access_token
+              );
+              localStorage.setItem(
+                "refresh-token",
+                res?.data?.data.refresh_token
+              );
+              replace("/shop");
+            }
+          })
+          .catch((err) => {
+            console.error(err);
           });
-        }
-      } catch (error) {
-        console.error(error);
       }
+    } else {
+      replace("/auth/login");
     }
   }, []);
 
