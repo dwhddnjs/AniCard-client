@@ -54,21 +54,4 @@ const Card = {
   back,
 };
 
-// const Card: React.FC<CardProps> = ({ status }) => {
-
-//   const renderStatusComponents = {
-//     front: (
-//       <>
-//         <Image src={pugIcon} width={200} height={350} alt="" />
-//       </>
-//     ),
-//     back: <div>sex</div>,
-//   };
-//   return (
-//     <div className="w-[200px] h-[300px] flex items-center justify-center rounded-2xl bg-gradient-to-b from-amber-200 to-amber-600 drop-shadow-3xl border-8 border-amber-600">
-//       {renderStatusComponents[status]}
-//     </div>
-//   );
-// };
-
 export default Card;

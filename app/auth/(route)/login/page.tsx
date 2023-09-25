@@ -61,7 +61,7 @@ function LoginPage() {
     } catch (error) {
       console.log("request", error);
     } finally {
-      push("/shop");
+      push("/store");
     }
 
     return;

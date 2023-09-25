@@ -13,9 +13,9 @@ const MainHeader = ({
 
   const routes = [
     {
-      href: `/shop`,
-      label: "Shop",
-      active: pathname === `/shop`,
+      href: `/store`,
+      label: "Store",
+      active: pathname === `/store`,
     },
     {
       href: `/packs`,

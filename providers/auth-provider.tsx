@@ -25,7 +25,7 @@ export default function AuthProvider({
 
       const currentTimestamp = Math.floor(Date.now() / 1000);
 
-      if (decodedToken.exp >= currentTimestamp) {
+      if (decodedToken.exp <= currentTimestamp) {
         axios({
           url: `${process.env.NEXT_PUBLIC_API_URL}${API_KEYS.refresh}`,
           method: "post",
@@ -44,7 +44,7 @@ export default function AuthProvider({
                 "refresh-token",
                 res?.data?.data.refresh_token
               );
-              replace("/shop");
+              replace("/store");
             }
           })
           .catch((err) => {

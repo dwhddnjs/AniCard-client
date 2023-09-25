@@ -7,13 +7,16 @@ import Image from "next/image";
 import { useRouter } from "next/navigation";
 import React, { useState } from "react";
 
-interface ShopPackProps {
+interface StorePackProps {
   pack: Pack;
+  onClickPurchase: (item: any) => void;
 }
 
-const ShopPack: React.FC<ShopPackProps> = ({ pack }) => {
+export const StorePack: React.FC<StorePackProps> = ({
+  pack,
+  onClickPurchase,
+}) => {
   const [open, setOpen] = useState(false);
-  const { push } = useRouter();
 
   return (
     <div>
@@ -49,12 +52,19 @@ const ShopPack: React.FC<ShopPackProps> = ({ pack }) => {
                 {pack.price} 원
               </div>
             </div>
-            <Button onClick={() => push("/packs")}>구매하기</Button>
+            <Button
+              onClick={() =>
+                onClickPurchase({
+                  label: pack.label,
+                  price: pack.price,
+                })
+              }
+            >
+              구매하기
+            </Button>
           </div>
         </div>
       </Modal>
     </div>
   );
 };
-
-export default ShopPack;
