@@ -3,4 +3,5 @@ export const API_KEYS = {
   signup: `/api/v1/auth/signup`,
   refresh: `/api/v1/auth/refresh`,
   store: `/api/v1/store`,
+  card: `/api/v1/card`,
 };

@@ -5,10 +5,9 @@ import pugIcon from "@/public/images/pug-icon.png";
 interface CardBackProps {
   card: {
     id: string;
-    img: any;
-    label: string;
+    image: any;
+    title: string;
     tier: string;
-    description: string;
   };
 }
 
@@ -21,7 +20,7 @@ const front = () => (
 const back: React.FC<CardBackProps> = ({ card }) => (
   <div className="w-[200px] h-[300px] flex justify-start rounded-2xl overflow-hidden drop-shadow-2xl border-8 flex-col border-white shadow-md ">
     <div className="relative">
-      <Image src={card.img} alt="" width={200} height={200} />
+      <Image src={card.image} alt="" width={200} height={200} />
       <div
         className={
           card.tier === "rare"
@@ -29,7 +28,7 @@ const back: React.FC<CardBackProps> = ({ card }) => (
             : "px-3 py-1 font-bold text-md bg-gray-400 text-white mx-2 rounded-3xl absolute  -bottom-4 left-8 "
         }
       >
-        {card.label}
+        {card.title}
       </div>
     </div>
     <div
@@ -41,9 +40,6 @@ const back: React.FC<CardBackProps> = ({ card }) => (
     >
       <div className="text-blue-600 text-sm font-semibold">
         등급 : {card.tier}
-      </div>
-      <div className="text-sm font-semibold text-gray-800 ">
-        {card.description}
       </div>
     </div>
   </div>

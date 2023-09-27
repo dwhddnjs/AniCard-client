@@ -6,7 +6,7 @@ import uniquePack from "@/public/images/unique.png";
 
 interface PackImage {
   pack: any;
-  onSelectPack: (img: any) => void;
+  onSelectPack: (id: any, img: any) => void;
 }
 
 export const PackImage: React.FC<PackImage> = ({ pack, onSelectPack }) => {
@@ -27,7 +27,7 @@ export const PackImage: React.FC<PackImage> = ({ pack, onSelectPack }) => {
   };
 
   return (
-    <div onClick={() => onSelectPack(getPackImage(pack.label))}>
+    <div onClick={() => onSelectPack(pack.id, getPackImage(pack.label))}>
       <Image src={getPackImage(pack.label)} width={150} height={200} alt="" />
     </div>
   );
