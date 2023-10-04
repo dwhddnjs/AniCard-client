@@ -1,6 +1,6 @@
 "use client";
 
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import React, { useEffect } from "react";
 import jwt from "jsonwebtoken";
 import axios from "axios";
@@ -12,6 +12,7 @@ export default function AuthProvider({
   children: React.ReactNode;
 }) {
   const { push, replace } = useRouter();
+  const pathname = usePathname();
 
   const getRefreshToken = async (rt: string) => {
     const res = await axios({
@@ -29,7 +30,7 @@ export default function AuthProvider({
   useEffect(() => {
     const token = localStorage.getItem("access-token") as string;
     const refreshToken = localStorage.getItem("refresh-token") as string;
-    if (token) {
+    if (token && pathname === "/auth/login") {
       try {
         const decodedToken = jwt.verify(
           token,
@@ -45,11 +46,8 @@ export default function AuthProvider({
       } catch (error) {
         if (error instanceof jwt.TokenExpiredError) {
           getRefreshToken(refreshToken);
-          replace("/store");
         }
       }
-    } else {
-      replace("/auth/login");
     }
   }, []);
 

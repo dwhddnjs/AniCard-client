@@ -24,7 +24,7 @@ export default function RootLayout({
         <ReactQueryProvider>
           <AuthProvider>
             <MainHeader />
-            {children}
+            {children}/
           </AuthProvider>
         </ReactQueryProvider>
       </body>
