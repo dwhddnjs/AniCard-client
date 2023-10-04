@@ -41,15 +41,18 @@ export default function AuthProvider({
 
         if (decodedToken.exp <= currentTimestamp) {
           getRefreshToken(refreshToken);
+          replace("/store");
+        } else {
+          replace("/store");
         }
-        replace("/store");
       } catch (error) {
         if (error instanceof jwt.TokenExpiredError) {
           getRefreshToken(refreshToken);
+          replace("/store");
         }
       }
     }
-  }, []);
+  }, [pathname]);
 
   return <div>{children}</div>;
 }
