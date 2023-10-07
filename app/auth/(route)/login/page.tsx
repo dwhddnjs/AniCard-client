@@ -104,6 +104,13 @@ function LoginPage() {
             <Button type="submit" disabled={isLoading}>
               로그인
             </Button>
+            <Button
+              type="submit"
+              disabled={isLoading}
+              onClick={() => push("/auth/signup")}
+            >
+              회원가입
+            </Button>
           </form>
         </Form>
       </div>
