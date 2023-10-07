@@ -1,14 +1,10 @@
 import Image from "next/image";
 import React from "react";
 import pugIcon from "@/public/images/pug-icon.png";
+import { CardTypes } from "@/types/card";
 
-interface CardBackProps {
-  card: {
-    id: string;
-    image: any;
-    title: string;
-    tier: string;
-  };
+export interface CardBackProps {
+  card: CardTypes;
 }
 
 const front = () => (

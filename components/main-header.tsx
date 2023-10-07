@@ -22,6 +22,11 @@ const MainHeader = ({
       label: "Packs",
       active: pathname === `/packs`,
     },
+    {
+      href: `/collection`,
+      label: "Collection",
+      active: pathname === `/collection`,
+    },
   ];
 
   if (

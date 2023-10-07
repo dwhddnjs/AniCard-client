@@ -30,7 +30,11 @@ export default function AuthProvider({
   useEffect(() => {
     const token = localStorage.getItem("access-token") as string;
     const refreshToken = localStorage.getItem("refresh-token") as string;
-    if (token && pathname === "/auth/login") {
+    if (token) {
+      if (pathname === "/auth/login") {
+        replace("/store");
+      }
+
       try {
         const decodedToken = jwt.verify(
           token,
@@ -41,16 +45,14 @@ export default function AuthProvider({
 
         if (decodedToken.exp <= currentTimestamp) {
           getRefreshToken(refreshToken);
-          replace("/store");
-        } else {
-          replace("/store");
         }
       } catch (error) {
         if (error instanceof jwt.TokenExpiredError) {
           getRefreshToken(refreshToken);
-          replace("/store");
         }
       }
+    } else {
+      replace("/auth/login");
     }
   }, [pathname]);
 

@@ -5,6 +5,7 @@ import React from "react";
 import Image from "next/image";
 import landingDog from "@/public/images/landing_dog.png";
 import { useRouter } from "next/navigation";
+import { ChevronLeft, ChevronRight } from "lucide-react";
 
 export default function HomePage() {
   const { push } = useRouter();
