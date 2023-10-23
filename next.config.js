@@ -9,7 +9,7 @@ const nextConfig = {
   //   ];
   // },
   images: {
-    domains: ["images.dog.ceo"],
+    domains: ["images.dog.ceo", "nng-phinf.pstatic.net"],
   },
 };
 

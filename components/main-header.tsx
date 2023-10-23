@@ -18,6 +18,11 @@ const MainHeader = ({
       active: pathname === `/store`,
     },
     {
+      href: `/roster`,
+      label: "Roster",
+      active: pathname === `/roster`,
+    },
+    {
       href: `/packs`,
       label: "Packs",
       active: pathname === `/packs`,
@@ -36,20 +41,18 @@ const MainHeader = ({
   ) {
     return (
       <div
-        className="w-full flex items-center border px-6 h-16 space-x-10
+        className="w-full flex items-center  px-6 h-16 space-x-10
       "
       >
-        <h1 className="font-bold">ANICARD</h1>
+        <h1 className="font-bold text-white">ANICARD</h1>
         <nav className="flex items-center space-x-4">
           {routes.map((route) => (
             <Link
               key={route.href}
               href={route.href}
               className={cn(
-                "text-sm font-medium transition-colors hover:text-primary",
-                route.active
-                  ? "text-black dark:text-white"
-                  : "text-muted-foreground"
+                "text-sm font-medium transition-colors hover:text-white",
+                route.active ? "text-white dark:text-white" : "text-[#555555]"
               )}
             >
               {route.label}

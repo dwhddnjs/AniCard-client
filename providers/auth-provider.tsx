@@ -51,8 +51,6 @@ export default function AuthProvider({
           getRefreshToken(refreshToken);
         }
       }
-    } else {
-      replace("/auth/login");
     }
   }, [pathname]);
 
