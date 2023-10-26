@@ -17,26 +17,31 @@ export default function RosterPage() {
   const [selectedPlayer, setSelectedPlayer] = useState([
     {
       id: 1,
+      position: "TOP",
       nickname: "Peyz",
       img: "https://nng-phinf.pstatic.net/MjAyMzA3MDZfODUg/MDAxNjg4NjI2NzAyMzY1.XmNiFz3E8Uw0GTXH0DkNXjTn5A-46-gW50DjLU1OZCEg.nxXvEzt_xdYF_iqivarZ0sDlPZeWDLfke06BSscnXScg.PNG/HUlabcQzATblGRFRdjNn.png",
     },
     {
       id: 2,
+      position: "JGL",
       nickname: "",
       img: "",
     },
     {
       id: 3,
+      position: "MID",
       nickname: "",
       img: "",
     },
     {
       id: 4,
+      position: "AD",
       nickname: "",
       img: "",
     },
     {
       id: 5,
+      position: "SPT",
       nickname: "",
       img: "",
     },
@@ -68,6 +73,7 @@ export default function RosterPage() {
             key={player.id}
             className="w-[100px] h-[130px] border-[1px] bg-[#1a1a1a] border-[#272727] flex flex-col items-center relative"
           >
+            <p>{player.position}</p>
             {player.img && <Image src={player.img} fill alt="" />}
             {player.nickname && (
               <p className="absolute bottom-1 right-1 text-white font-bold">
