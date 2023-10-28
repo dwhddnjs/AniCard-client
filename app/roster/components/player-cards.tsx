@@ -40,7 +40,7 @@ export const PlayerCards: React.FC<PlayerCardsProps> = ({
           <div
             key={player.nickname}
             className={cn(
-              "bg-[#272727] rounded-md w-[130px] px-[12px] pb-[8px] mr-[20px] mb-[20px] shadow-xl border-2 border-[#272727] hover:scale-105 duration-200 ease-linear",
+              "bg-[#272727] rounded-md w-[130px] px-[12px] pb-[8px] mr-[20px] mb-[20px] shadow-md border-2 border-[#272727] hover:scale-105 duration-200 ease-linear",
               player.nickname === selectedLine.nickname && "border-[#c4c4c4]"
             )}
             onClick={() => onSelectPlayer(type, player)}

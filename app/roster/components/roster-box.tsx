@@ -15,32 +15,32 @@ interface RosterBoxProps {
   onResetBox: () => void;
 }
 
+export const renderPositionImg = (position: string) => {
+  let result;
+  switch (position) {
+    case "top":
+      result = TopIcon;
+      break;
+    case "jgl":
+      result = JglIcon;
+      break;
+    case "mid":
+      result = MidIcon;
+      break;
+    case "ad":
+      result = AdIcon;
+      break;
+    default:
+      result = SptIcon;
+      break;
+  }
+  return result;
+};
+
 export const RosterBox: React.FC<RosterBoxProps> = ({
   selectedPlayers,
   onResetBox,
 }) => {
-  const renderPositionImg = (position: string) => {
-    let result;
-    switch (position) {
-      case "top":
-        result = TopIcon;
-        break;
-      case "jgl":
-        result = JglIcon;
-        break;
-      case "mid":
-        result = MidIcon;
-        break;
-      case "ad":
-        result = AdIcon;
-        break;
-      default:
-        result = SptIcon;
-        break;
-    }
-    return result;
-  };
-
   return (
     <div className="flex fixed w-fit bottom-0 left-1/3 -translate-x-1/3">
       <div className="w-[100px] h-[130px] border-[1px] bg-[#272727] border-[#1e1e1e] flex flex-col items-center justify-between pt-[18px] pb-[10px]">

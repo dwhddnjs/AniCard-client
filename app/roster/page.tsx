@@ -8,8 +8,10 @@ import JglIcon from "@/public/images/jgl_icon_p.svg";
 import MidIcon from "@/public/images/mid_icon_p.svg";
 import AdIcon from "@/public/images/ad_icon_p.svg";
 import SptIcon from "@/public/images/spt_icon_p.svg";
-import { RosterBox } from "./components/roster-box";
+import { RosterBox, renderPositionImg } from "./components/roster-box";
 import { useRosterBoxStore } from "@/hooks/useRosterBoxStore";
+import Image from "next/image";
+import EsportIcon from "@/public/images/esport_icon.svg";
 
 export type selectedPlayerType = {
   id: number;
@@ -58,15 +60,36 @@ export default function RosterPage() {
         <div className="h-[200px]" />
       </div>
       <div className=" w-[18%] bg-[#1a1a1a] pt-[24px] px-[18px]">
-        <div className=" bg-[#272727] rounded-md h-[100px] p-[12px] space-y-1">
-          <h3 className="text-[white] font-bold text-lg">Roster</h3>
-          <div className="flex space-x-2">
-            <div className="border-2 w-[32px] h-[32px] rounded-3xl" />
-            <div className="border-2 w-[32px] h-[32px] rounded-3xl" />
-            <div className="border-2 w-[32px] h-[32px] rounded-3xl" />
-            <div className="border-2 w-[32px] h-[32px] rounded-3xl" />
-            <div className="border-2 w-[32px] h-[32px] rounded-3xl" />
+        <div className=" bg-[#1e1e1e] rounded-lg pt-[12px] px-[12px] pb-[10px] relative shadow-lg border-2 border-[#272727]">
+          <h3 className="text-[white] font-bold text-md ml-[4px] mb-[4px]">
+            예비 로스터
+          </h3>
+          <div className="flex space-x-2 mb-2">
+            {selectedPlayers.map((player) => (
+              <div key={player.id}>
+                {player?.img && (
+                  <Image src={player.img} width={50} height={50} alt="" />
+                )}
+              </div>
+            ))}
           </div>
+          <div className="grid grid-cols-2 grid-flow-row space-y-[2px]">
+            {selectedPlayers.map((player) => (
+              <div
+                key={player.id}
+                className="flex text-[12px] text-[white] space-x-1 items-center"
+              >
+                <Image
+                  src={renderPositionImg(player.position)}
+                  width={16}
+                  height={16}
+                  alt=""
+                />
+                <p className="text-[10px] font-medium">{player?.nickname}</p>
+              </div>
+            ))}
+          </div>
+          <div className="w-0 h-0 border-t-[32px] border-t-transparent border-r-[32px] border-r-[#272727] rounded-br-md absolute bottom-0 right-0" />
         </div>
       </div>
       <RosterBox selectedPlayers={selectedPlayers} onResetBox={onResetBox} />
