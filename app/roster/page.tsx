@@ -57,7 +57,18 @@ export default function RosterPage() {
         />
         <div className="h-[200px]" />
       </div>
-      <div className=" w-[18%] bg-[#1a1a1a]"></div>
+      <div className=" w-[18%] bg-[#1a1a1a] pt-[24px] px-[18px]">
+        <div className=" bg-[#272727] rounded-md h-[100px] p-[12px] space-y-1">
+          <h3 className="text-[white] font-bold text-lg">Roster</h3>
+          <div className="flex space-x-2">
+            <div className="border-2 w-[32px] h-[32px] rounded-3xl" />
+            <div className="border-2 w-[32px] h-[32px] rounded-3xl" />
+            <div className="border-2 w-[32px] h-[32px] rounded-3xl" />
+            <div className="border-2 w-[32px] h-[32px] rounded-3xl" />
+            <div className="border-2 w-[32px] h-[32px] rounded-3xl" />
+          </div>
+        </div>
+      </div>
       <RosterBox selectedPlayers={selectedPlayers} onResetBox={onResetBox} />
     </div>
   );
