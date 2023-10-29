@@ -12,6 +12,9 @@ import { RosterBox, renderPositionImg } from "./components/roster-box";
 import { useRosterBoxStore } from "@/hooks/useRosterBoxStore";
 import Image from "next/image";
 import EsportIcon from "@/public/images/esport_icon.svg";
+import { Button } from "@/components/ui/button";
+import { ChevronsDown, ChevronsUp } from "lucide-react";
+import { cn } from "@/lib/utils";
 
 export type selectedPlayerType = {
   id: number;
@@ -23,6 +26,7 @@ export type selectedPlayerType = {
 export default function RosterPage() {
   const { data } = useRoster();
   const { selectedPlayers, onResetBox, onSelectPlayer } = useRosterBoxStore();
+  const [disable, setDisable] = useState(false);
 
   return (
     <div className=" min-h-screen min-w-screen flex">
@@ -92,7 +96,27 @@ export default function RosterPage() {
           <div className="w-0 h-0 border-t-[32px] border-t-transparent border-r-[32px] border-r-[#272727] rounded-br-md absolute bottom-0 right-0" />
         </div>
       </div>
-      <RosterBox selectedPlayers={selectedPlayers} onResetBox={onResetBox} />
+      <div
+        className={cn(
+          "h-fit fixed bottom-[130px] left-[40%] -translate-x-[40%]",
+          disable && "bottom-1"
+        )}
+      >
+        <Button
+          className="bg-transparent hover:bg-transparent"
+          size="icon"
+          onClick={() => setDisable((prev) => !prev)}
+        >
+          {!disable ? (
+            <ChevronsDown color="#c4c4c4" size={36} />
+          ) : (
+            <ChevronsUp color="#c4c4c4" size={36} />
+          )}
+        </Button>
+      </div>
+      {!disable && (
+        <RosterBox selectedPlayers={selectedPlayers} onResetBox={onResetBox} />
+      )}
     </div>
   );
 }

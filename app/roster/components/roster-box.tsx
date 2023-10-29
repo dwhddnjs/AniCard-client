@@ -1,6 +1,6 @@
 import Image from "next/image";
 import esportIcon from "@/public/images/esport_icon.svg";
-import React from "react";
+import React, { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { selectedPlayerType } from "../page";
 import TopIcon from "@/public/images/top_icon_p.svg";
@@ -8,7 +8,8 @@ import JglIcon from "@/public/images/jgl_icon_p.svg";
 import MidIcon from "@/public/images/mid_icon_p.svg";
 import AdIcon from "@/public/images/ad_icon_p.svg";
 import SptIcon from "@/public/images/spt_icon_p.svg";
-import { Check, RotateCcw, icons } from "lucide-react";
+import { Check, RotateCcw, ChevronsDown, ChevronsUp } from "lucide-react";
+import { cn } from "@/lib/utils";
 
 interface RosterBoxProps {
   selectedPlayers: selectedPlayerType[];
