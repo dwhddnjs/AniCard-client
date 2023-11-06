@@ -10,6 +10,8 @@ import AdIcon from "@/public/images/ad_icon_p.svg";
 import SptIcon from "@/public/images/spt_icon_p.svg";
 import { Check, RotateCcw, ChevronsDown, ChevronsUp } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { usePostMutation } from "@/hooks/usePostMutation";
+import { API_KEYS } from "@/common/apiKeys";
 
 interface RosterBoxProps {
   selectedPlayers: selectedPlayerType[];
@@ -42,6 +44,20 @@ export const RosterBox: React.FC<RosterBoxProps> = ({
   selectedPlayers,
   onResetBox,
 }) => {
+  const { trigger, isError } = usePostMutation(API_KEYS.roster);
+
+  console.log("selectedPlayers: ", selectedPlayers);
+
+  const onSaveRoster = () => {
+    const requestBody = {
+      title: "유유",
+      players: selectedPlayers,
+    };
+    if (selectedPlayers.length > 4) {
+      trigger(requestBody);
+    }
+  };
+
   return (
     <div className="flex fixed w-fit bottom-0 left-1/3 -translate-x-1/3">
       <div className="w-[100px] h-[130px] border-[1px] bg-[#272727] border-[#1e1e1e] flex flex-col items-center justify-between pt-[18px] pb-[10px]">
@@ -53,6 +69,7 @@ export const RosterBox: React.FC<RosterBoxProps> = ({
           <Button
             className="font-bold bg-[#74A99C] rounded-[50%] text-xs"
             size={"xs"}
+            onClick={onSaveRoster}
           >
             <Check width={20} />
           </Button>

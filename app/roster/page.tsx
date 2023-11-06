@@ -15,6 +15,7 @@ import EsportIcon from "@/public/images/esport_icon.svg";
 import { Button } from "@/components/ui/button";
 import { ChevronsDown, ChevronsUp } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { useSavedRoster } from "@/hooks/useSavedRoster";
 
 export type selectedPlayerType = {
   id: number;
@@ -25,8 +26,12 @@ export type selectedPlayerType = {
 
 export default function RosterPage() {
   const { data } = useRoster();
+
   const { selectedPlayers, onResetBox, onSelectPlayer } = useRosterBoxStore();
   const [disable, setDisable] = useState(false);
+
+  const { data: savedRoster } = useSavedRoster();
+  console.log("savedRoster: ", savedRoster);
 
   return (
     <div className=" min-h-screen min-w-screen flex">

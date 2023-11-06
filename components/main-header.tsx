@@ -41,7 +41,7 @@ const MainHeader = ({
   ) {
     return (
       <div className="w-full flex items-center px-6 h-16 space-x-10 shadow-md">
-        <h1 className="font-bold text-white">ANICARD</h1>
+        <h1 className="font-bold text-white">LoLster</h1>
         <nav className="flex items-center space-x-4">
           {routes.map((route) => (
             <Link

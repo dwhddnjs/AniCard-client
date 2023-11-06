@@ -14,6 +14,7 @@ export type PlayerTypes = {
   team: string;
   img: string;
   name: string;
+  career: string[];
 };
 
 interface PlayerCardsProps {
@@ -66,12 +67,19 @@ export const PlayerCards: React.FC<PlayerCardsProps> = ({
             <HoverCardContent className="bg-[#1a1a1a] border-0 relative drop-shadow-none">
               <div className="w-0 h-0 border-l-[8px] border-l-transparent border-b-[12px] border-b-[#1a1a1a] border-r-[8px] border-r-transparent absolute top-[-12px] left-[45%]"></div>
               <div className="flex justify-center items-center w-fit space-x-1 mb-2">
-                <Medal color="#fff" width={18} height={18} />
-                <h3 className="font-semibold text-white text-sm">경력</h3>
+                <Medal color="#fff" width={14} height={14} />
+                <h3 className="font-semibold text-white text-sm">주요 경력</h3>
               </div>
               <div className="space-y-0.5 ml-[4px]">
-                <p className="text-[#c4c4c4] text-xs"> ● 2023 LCK 우승</p>
-                <p className="text-[#c4c4c4] text-xs"> ● 2023 월즈 우승</p>
+                {!player?.career ? (
+                  <p className="text-[#c4c4c4] text-xs">없음</p>
+                ) : (
+                  player?.career?.map((career) => (
+                    <p className="text-[#c4c4c4] text-xs" key={career}>
+                      {`●  ${career}`}
+                    </p>
+                  ))
+                )}
               </div>
             </HoverCardContent>
           </HoverCard>
