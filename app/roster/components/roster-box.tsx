@@ -1,6 +1,6 @@
 import Image from "next/image";
 import esportIcon from "@/public/images/esport_icon.svg";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { selectedPlayerType } from "../page";
 import TopIcon from "@/public/images/top_icon_p.svg";
@@ -12,6 +12,12 @@ import { Check, RotateCcw, ChevronsDown, ChevronsUp } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { usePostMutation } from "@/hooks/usePostMutation";
 import { API_KEYS } from "@/common/apiKeys";
+import Modal from "@/components/modal";
+import { Input } from "@/components/ui/input";
+import { useSaveRosterMutation } from "@/hooks/useSaveRosterMutation";
+import { useRosterBoxStore } from "@/hooks/useRosterBoxStore";
+import { PlayerTypes } from "./roster-card";
+import { useToast } from "@/components/ui/use-toast";
 
 interface RosterBoxProps {
   selectedPlayers: selectedPlayerType[];
@@ -45,17 +51,52 @@ export const RosterBox: React.FC<RosterBoxProps> = ({
   onResetBox,
 }) => {
   const { trigger, isError } = usePostMutation(API_KEYS.roster);
-
+  const [open, setOpen] = useState(false);
+  const [inputValue, setInputValue] = useState("");
+  const { mutate } = useSaveRosterMutation();
   console.log("selectedPlayers: ", selectedPlayers);
+  const { toast } = useToast();
 
   const onSaveRoster = () => {
+    const removeIdPlayers = selectedPlayers.map((el) => {
+      return {
+        img: el.img,
+        nickname: el.nickname,
+        position: el.position,
+      };
+    });
+
     const requestBody = {
-      title: "유유",
-      players: selectedPlayers,
+      title: inputValue,
+      players: removeIdPlayers,
     };
-    if (selectedPlayers.length > 4) {
-      trigger(requestBody);
+
+    try {
+      mutate(requestBody);
+    } catch (error) {
+      console.log(error);
+    } finally {
+      onResetBox();
+      setOpen(false);
     }
+  };
+
+  const onChangeText = (e: any) => {
+    setInputValue(e.target.value);
+  };
+
+  const onOpenModal = () => {
+    selectedPlayers.forEach((el) => {
+      if (el.nickname === "") {
+        toast({
+          title: "각 라인별 선수들을 모두 채워주세요.",
+          variant: "destructive",
+        });
+        setOpen(false);
+      } else {
+        setOpen(true);
+      }
+    });
   };
 
   return (
@@ -69,7 +110,7 @@ export const RosterBox: React.FC<RosterBoxProps> = ({
           <Button
             className="font-bold bg-[#74A99C] rounded-[50%] text-xs"
             size={"xs"}
-            onClick={onSaveRoster}
+            onClick={onOpenModal}
           >
             <Check width={20} />
           </Button>
@@ -102,6 +143,32 @@ export const RosterBox: React.FC<RosterBoxProps> = ({
           )}
         </div>
       ))}
+      <Modal isOpen={open} onOpenChange={setOpen}>
+        <h2 className="text-[#c4c4c4] font-semibold text-[16px] mb-3 ml-1">
+          원하시는 로스터 이름 입력해주세요.
+        </h2>
+        <Input
+          className="bg-[#1e1e1e] border-[#1a1a1a] text-white h-[48px] text-md"
+          onChange={(e) => onChangeText(e)}
+          value={inputValue}
+        />
+        <div className=" flex justify-end space-x-3 mt-8">
+          <Button
+            size={"lg"}
+            className="bg-[#74A99C] text-[white] font-bold "
+            onClick={onSaveRoster}
+          >
+            저장
+          </Button>
+          <Button
+            size={"lg"}
+            className="bg-[#1e1e1e] font-bold"
+            onClick={() => setOpen(false)}
+          >
+            취소
+          </Button>
+        </div>
+      </Modal>
     </div>
   );
 };

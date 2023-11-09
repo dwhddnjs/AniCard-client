@@ -31,10 +31,10 @@ const Modal: React.FC<ModalProps> = ({
 }) => {
   return (
     <Dialog open={isOpen} onOpenChange={onOpenChange}>
-      <DialogContent className={cn("", className)}>
+      <DialogContent className={cn("bg-[#272727] border-[#1e1e1e]", className)}>
         {!disbleClose && (
           <DialogClose className="flex justify-end">
-            <X />
+            <X color="#c4c4c4" />
           </DialogClose>
         )}
         <div>{children}</div>

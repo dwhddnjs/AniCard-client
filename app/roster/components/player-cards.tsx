@@ -37,7 +37,7 @@ export const PlayerCards: React.FC<PlayerCardsProps> = ({
   )[0];
 
   return (
-    <div>
+    <div className="z-0">
       <div className="flex items-center justify-start mb-[12px] space-x-2 ">
         <Image src={icon} width={30} height={30} alt="" />
         <h2 className="text-white text-xl font-extrabold ">{type}</h2>
@@ -48,7 +48,7 @@ export const PlayerCards: React.FC<PlayerCardsProps> = ({
             <HoverCardTrigger>
               <div
                 className={cn(
-                  "bg-[#272727] rounded-md w-[130px] px-[12px] pb-[8px] mr-[20px] mb-[20px] shadow-md border-2 border-[#272727] hover:scale-105 duration-200 ease-linear",
+                  "bg-[#272727] rounded-md w-[130px] px-[12px] pb-[8px] mr-[20px] mb-[20px] shadow-md border-2 border-[#272727] hover:translate-y-2  duration-200 ease-linear",
                   player.nickname === selectedLine.nickname &&
                     "border-[#c4c4c4]"
                 )}
