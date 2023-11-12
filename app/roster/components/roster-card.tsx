@@ -2,6 +2,9 @@ import { useSavedRoster } from "@/hooks/useSavedRoster";
 import Image from "next/image";
 import React, { FC } from "react";
 import { renderPositionImg } from "./roster-box";
+import { Button } from "@/components/ui/button";
+import { X } from "lucide-react";
+import { useRemoveRosterMutation } from "@/hooks/useRemoveRosterMutation";
 
 export type PlayerTypes = {
   id: number;
@@ -22,11 +25,30 @@ interface RosterCardProps {
 }
 
 export const RosterCard: FC<RosterCardProps> = ({ roster }) => {
+  const { mutate } = useRemoveRosterMutation(roster.id);
+
+  const onRemoveRoster = async () => {
+    try {
+      mutate();
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   return (
-    <div className=" bg-[#1e1e1e] rounded-lg pt-[12px] px-[12px] pb-[10px] relative shadow-lg border-2 border-[#272727]">
-      <h3 className="text-[white] font-bold text-md ml-[4px] mb-[4px]">
-        {roster?.title}
-      </h3>
+    <div className=" bg-[#1e1e1e] rounded-lg pt-[8px] px-[12px] pb-[10px] relative shadow-lg border-2 border-[#272727]">
+      <div className="flex justify-between items-center mb-[4px]">
+        <h3 className="text-[white] font-bold text-md ml-[4px] ">
+          {roster?.title}
+        </h3>
+        <Button
+          size={"xs"}
+          className="bg-transparent"
+          onClick={() => onRemoveRoster()}
+        >
+          <X width={16} height={16} color="#c4c4c4" />
+        </Button>
+      </div>
       <div className="flex space-x-2 mb-2 ">
         {roster?.players?.map((player) => (
           <div key={player.id}>

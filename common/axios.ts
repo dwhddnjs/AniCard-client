@@ -46,8 +46,8 @@ const putRequest = (url: string, arg: any) => {
   return baseFetch({ url, method: "PUT", data: arg });
 };
 
-const deleteRequest = (url: string, arg: any) => {
-  return baseFetch({ url, method: "DELETE", data: arg });
+const deleteRequest = (url: string) => {
+  return baseFetch({ url, method: "DELETE" });
 };
 
 export { fetcher, postRequest, patchRequest, putRequest, deleteRequest };
