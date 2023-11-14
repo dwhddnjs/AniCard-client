@@ -1,10 +1,11 @@
 import { useSavedRoster } from "@/hooks/useSavedRoster";
 import Image from "next/image";
-import React, { FC } from "react";
+import React, { FC, useState } from "react";
 import { renderPositionImg } from "./roster-box";
 import { Button } from "@/components/ui/button";
 import { X } from "lucide-react";
 import { useRemoveRosterMutation } from "@/hooks/useRemoveRosterMutation";
+import { cn } from "@/lib/utils";
 
 export type PlayerTypes = {
   id: number;
@@ -26,6 +27,8 @@ interface RosterCardProps {
 
 export const RosterCard: FC<RosterCardProps> = ({ roster }) => {
   const { mutate } = useRemoveRosterMutation(roster.id);
+  const [selected, setSelected] = useState<null | number>(null);
+  console.log("selected: ", selected);
 
   const onRemoveRoster = async () => {
     try {
@@ -35,8 +38,18 @@ export const RosterCard: FC<RosterCardProps> = ({ roster }) => {
     }
   };
 
+  const onSelectCard = (rosterId: number) => {
+    setSelected(rosterId);
+  };
+
   return (
-    <div className=" bg-[#1e1e1e] rounded-lg pt-[8px] px-[12px] pb-[10px] relative shadow-lg border-2 border-[#272727]">
+    <div
+      onClick={() => onSelectCard(roster.id)}
+      className={cn(
+        "bg-[#1e1e1e] rounded-lg pt-[8px] px-[12px] pb-[10px] relative shadow-lg border-2 border-[#272727]",
+        selected === roster.id && "border-[#c4c4c4]"
+      )}
+    >
       <div className="flex justify-between items-center mb-[4px]">
         <h3 className="text-[white] font-bold text-md ml-[4px] ">
           {roster?.title}
