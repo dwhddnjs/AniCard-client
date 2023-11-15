@@ -16,7 +16,7 @@ export const useRemoveRosterMutation = (id: number) => {
 
       queryClient.setQueriesData([`${API_KEYS.roster}/saved`], data);
       toast({
-        title: "로스터가 삭제 되었습니다.",
+        title: "선택하신 로스터가 삭제 되었습니다.",
       });
     },
     onError: (error) => {

@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/button";
 import { X } from "lucide-react";
 import { useRemoveRosterMutation } from "@/hooks/useRemoveRosterMutation";
 import { cn } from "@/lib/utils";
+import { useRosterBoxStore } from "@/hooks/useRosterBoxStore";
 
 export type PlayerTypes = {
   id: number;
@@ -23,31 +24,30 @@ export type RosterTypes = {
 
 interface RosterCardProps {
   roster: RosterTypes;
+  onSelectCard: (roster: RosterTypes) => void;
 }
 
-export const RosterCard: FC<RosterCardProps> = ({ roster }) => {
+export const RosterCard: FC<RosterCardProps> = ({ roster, onSelectCard }) => {
   const { mutate } = useRemoveRosterMutation(roster.id);
-  const [selected, setSelected] = useState<null | number>(null);
-  console.log("selected: ", selected);
+  const { rosterId, onResetBox } = useRosterBoxStore();
 
-  const onRemoveRoster = async () => {
+  const onRemoveRoster = async (e: any) => {
+    e.stopPropagation();
     try {
       mutate();
     } catch (error) {
       console.log(error);
+    } finally {
+      onResetBox();
     }
-  };
-
-  const onSelectCard = (rosterId: number) => {
-    setSelected(rosterId);
   };
 
   return (
     <div
-      onClick={() => onSelectCard(roster.id)}
+      onClick={() => onSelectCard(roster)}
       className={cn(
         "bg-[#1e1e1e] rounded-lg pt-[8px] px-[12px] pb-[10px] relative shadow-lg border-2 border-[#272727]",
-        selected === roster.id && "border-[#c4c4c4]"
+        rosterId === roster.id && "border-[#c4c4c4]"
       )}
     >
       <div className="flex justify-between items-center mb-[4px]">
@@ -57,7 +57,7 @@ export const RosterCard: FC<RosterCardProps> = ({ roster }) => {
         <Button
           size={"xs"}
           className="bg-transparent"
-          onClick={() => onRemoveRoster()}
+          onClick={(e) => onRemoveRoster(e)}
         >
           <X width={16} height={16} color="#c4c4c4" />
         </Button>

@@ -10,8 +10,11 @@ export type selectedPlayerType = {
 
 export interface useRosterBoxStoreTypes {
   selectedPlayers: selectedPlayerType[];
+  rosterId: null | number;
   onSelectPlayer: (type: string, player: PlayerTypes) => void;
   onResetBox: () => void;
+  onUpdatePlayers: (players: selectedPlayerType[]) => void;
+  setRosterId: (rosterId: number) => void;
 }
 
 export const useRosterBoxStore = create<useRosterBoxStoreTypes>((set, get) => ({
@@ -48,6 +51,14 @@ export const useRosterBoxStore = create<useRosterBoxStoreTypes>((set, get) => ({
     },
   ],
 
+  rosterId: null,
+
+  setRosterId: (rosterId: number) => {
+    set({
+      rosterId,
+    });
+  },
+
   onSelectPlayer: (type: string, player: PlayerTypes) => {
     const lowerType = type.toLowerCase();
     const newArr = get().selectedPlayers;
@@ -61,6 +72,29 @@ export const useRosterBoxStore = create<useRosterBoxStoreTypes>((set, get) => ({
     }
     set({
       selectedPlayers: newArr,
+    });
+  },
+
+  onUpdatePlayers: (players: selectedPlayerType[]) => {
+    const prevArr = get().selectedPlayers;
+    const result: any = [];
+    prevArr.forEach((prevEl) => {
+      players.forEach((el) => {
+        if (prevEl.position === el.position) {
+          const newItem = {
+            id: prevEl.id,
+            position: el.position,
+            nickname: el.nickname,
+            img: el.img,
+          };
+
+          result.push(newItem);
+        }
+      });
+    });
+
+    set({
+      selectedPlayers: result,
     });
   },
 
@@ -98,6 +132,7 @@ export const useRosterBoxStore = create<useRosterBoxStoreTypes>((set, get) => ({
           img: "",
         },
       ],
+      rosterId: null,
     });
   },
 }));

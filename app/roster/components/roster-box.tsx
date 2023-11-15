@@ -18,10 +18,10 @@ import { useSaveRosterMutation } from "@/hooks/useSaveRosterMutation";
 import { useRosterBoxStore } from "@/hooks/useRosterBoxStore";
 import { PlayerTypes } from "./roster-card";
 import { useToast } from "@/components/ui/use-toast";
+import { useUpdateRosterMutation } from "@/hooks/useUpdateRosterMutation";
 
 interface RosterBoxProps {
   selectedPlayers: selectedPlayerType[];
-  onResetBox: () => void;
 }
 
 export const renderPositionImg = (position: string) => {
@@ -46,15 +46,14 @@ export const renderPositionImg = (position: string) => {
   return result;
 };
 
-export const RosterBox: React.FC<RosterBoxProps> = ({
-  selectedPlayers,
-  onResetBox,
-}) => {
+export const RosterBox: React.FC<RosterBoxProps> = ({ selectedPlayers }) => {
   const { trigger, isError } = usePostMutation(API_KEYS.roster);
   const [open, setOpen] = useState(false);
   const [inputValue, setInputValue] = useState("");
-  const { mutate } = useSaveRosterMutation();
-  console.log("selectedPlayers: ", selectedPlayers);
+  const { mutate: saveTrigger } = useSaveRosterMutation();
+  const { onResetBox, rosterId } = useRosterBoxStore();
+  const { mutate: updateTrigger } = useUpdateRosterMutation();
+
   const { toast } = useToast();
 
   const onSaveRoster = () => {
@@ -72,11 +71,20 @@ export const RosterBox: React.FC<RosterBoxProps> = ({
     };
 
     try {
-      mutate(requestBody);
+      if (rosterId) {
+        const requestBodyAddedId = {
+          ...requestBody,
+          id: rosterId,
+        };
+        updateTrigger(requestBodyAddedId);
+      } else {
+        saveTrigger(requestBody);
+      }
     } catch (error) {
       console.log(error);
     } finally {
       onResetBox();
+      setInputValue("");
       setOpen(false);
     }
   };
@@ -145,7 +153,9 @@ export const RosterBox: React.FC<RosterBoxProps> = ({
       ))}
       <Modal isOpen={open} onOpenChange={setOpen}>
         <h2 className="text-[#c4c4c4] font-semibold text-[16px] mb-3 ml-1">
-          원하시는 로스터 이름 입력해주세요.
+          {rosterId
+            ? "수정하실 로스터 이름을 입력해주세요."
+            : "저장하실 로스터 이름을 입력해주세요."}
         </h2>
         <Input
           className="bg-[#1e1e1e] border-[#1a1a1a] text-white h-[48px] text-md"

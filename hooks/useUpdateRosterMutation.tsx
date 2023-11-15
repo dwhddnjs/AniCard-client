@@ -1,21 +1,21 @@
 import { PlayerTypes } from "@/app/roster/components/roster-card";
 import { API_KEYS } from "@/common/apiKeys";
-import { postRequest } from "@/common/axios";
+import { postRequest, putRequest } from "@/common/axios";
 import { useToast } from "@/components/ui/use-toast";
 import React from "react";
 import { useMutation, useQueryClient } from "react-query";
 
-export const useSaveRosterMutation = () => {
+export const useUpdateRosterMutation = () => {
   const queryClient = useQueryClient();
   const { toast } = useToast();
 
   const { mutate, isLoading, isError } = useMutation({
     mutationFn: (data: { title: string; players: Omit<PlayerTypes, "id">[] }) =>
-      postRequest(API_KEYS.roster, data),
+      putRequest(API_KEYS.roster, data),
     onSuccess: (data) => {
       queryClient.setQueryData([`${API_KEYS.roster}/saved`], data);
       toast({
-        title: "새로운 로스터가 저장 되었습니다.",
+        title: "기존 로스터가 수정 되었습니다.",
       });
     },
     onError: (error) => {
