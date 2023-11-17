@@ -18,6 +18,8 @@ import { postRequest } from "@/common/axios";
 import { API_KEYS } from "@/common/apiKeys";
 import { usePostMutation } from "@/hooks/usePostMutation";
 import { useRouter } from "next/navigation";
+import EsportsIcon from "@/public/images/esport_icon.svg";
+import Image from "next/image";
 
 function SignupPage() {
   const { trigger, isLoading } = usePostMutation(API_KEYS.signup);
@@ -31,8 +33,10 @@ function SignupPage() {
       .string()
       .min(1, { message: "최소 1글자 이상 작성해주세요" })
       .email("이메일 주소가 유효하지 않습니다"),
-    password: z.string().min(7),
-    checkPassword: z.string().min(7),
+    password: z.string().min(7, { message: "최소 7글자 이상 작성해주세요" }),
+    checkPassword: z
+      .string()
+      .min(7, { message: "최소 7글자 이상 작성해주세요" }),
   });
 
   const form = useForm<z.infer<typeof formSchema>>({
@@ -70,70 +74,125 @@ function SignupPage() {
   };
 
   return (
-    <div className="flex justify-center items-center border-black border-2 h-screen">
-      <div className="border-2 border-black w-[400px] h-[500px]">
-        <Form {...form}>
-          <form
-            onSubmit={form.handleSubmit(onSubmit)}
-            onChange={() => console.log(form.getValues())}
-          >
-            <FormField
-              control={form.control}
-              name="name"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Name</FormLabel>
-                  <FormControl>
-                    <Input {...field} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <FormField
-              control={form.control}
-              name="email"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Email</FormLabel>
-                  <FormControl>
-                    <Input {...field} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <FormField
-              control={form.control}
-              name="password"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Password</FormLabel>
-                  <FormControl>
-                    <Input {...field} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <FormField
-              control={form.control}
-              name="checkPassword"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Check Password</FormLabel>
-                  <FormControl>
-                    <Input {...field} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <Button type="submit" disabled={isLoading}>
-              회원가입
-            </Button>
-          </form>
-        </Form>
+    <div className="bg-[#1a1a1a] flex justify-end">
+      <div className="bg-[#1e1e1e] rounded-l-3xl flex w-[75%] justify-center items-center h-screen space-x-[10%] shadow-sm">
+        <div className="w-[30%] space-y-8">
+          <div className="space-y-2">
+            <h2 className="text-white font-bold text-[32px]">Sign Up</h2>
+            <p className="text-[#c4c4c4] text-xs">
+              회원가입 양식에 맞게 입력해주세요.
+            </p>
+          </div>
+
+          <Form {...form}>
+            <form
+              onSubmit={form.handleSubmit(onSubmit)}
+              onChange={() => console.log(form.getValues())}
+            >
+              <div className="space-y-3">
+                <FormField
+                  control={form.control}
+                  name="name"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel className="text-[#c4c4c4] font-semibold pl-1">
+                        Name
+                      </FormLabel>
+                      <FormControl>
+                        <Input
+                          {...field}
+                          className="bg-[#272727] border-[#1a1a1a] text-white h-[48px] placeholder:text-[#555555]"
+                          placeholder="홍길동"
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={form.control}
+                  name="email"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel className="text-[#c4c4c4] font-semibold pl-1">
+                        Email
+                      </FormLabel>
+                      <FormControl>
+                        <Input
+                          {...field}
+                          className="bg-[#272727] border-[#1a1a1a] text-white h-[48px] placeholder:text-[#555555]"
+                          placeholder="example@example.com"
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={form.control}
+                  name="password"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel className="text-[#c4c4c4] font-semibold pl-1">
+                        Password
+                      </FormLabel>
+                      <FormControl>
+                        <Input
+                          {...field}
+                          className="bg-[#272727] border-[#1a1a1a] text-white h-[48px] placeholder:text-[#555555]"
+                          placeholder="*******"
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={form.control}
+                  name="checkPassword"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel className="text-[#c4c4c4] font-semibold pl-1">
+                        Re Password
+                      </FormLabel>
+                      <FormControl>
+                        <Input
+                          {...field}
+                          className="bg-[#272727] border-[#1a1a1a] text-white h-[48px] placeholder:text-[#555555]"
+                          placeholder="*******"
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              </div>
+              <div className="mt-12 flex flex-col">
+                <Button
+                  className="w-full h-[48px] rounded-lg bg-[#74A99C] font-bold text-md"
+                  type="submit"
+                  disabled={isLoading}
+                >
+                  회원가입
+                </Button>
+                <Button
+                  type="submit"
+                  disabled={isLoading}
+                  onClick={(e) => {
+                    e.preventDefault();
+                    push("/auth/login");
+                  }}
+                  className="bg-transparent p-0 text-xs text-[#74A99C] hover:bg-transparent"
+                >
+                  로그인으로 돌아가기
+                </Button>
+              </div>
+            </form>
+          </Form>
+        </div>
+        <div>
+          <Image src={EsportsIcon} width={320} height={320} alt="" />
+        </div>
       </div>
     </div>
   );

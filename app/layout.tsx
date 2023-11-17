@@ -23,11 +23,11 @@ export default function RootLayout({
     <html lang="en">
       <body className={font.className} suppressHydrationWarning={true}>
         <ReactQueryProvider>
-          <AuthProvider>
-            <Toaster />
-            <MainHeader />
-            {children}
-          </AuthProvider>
+          {/* <AuthProvider> */}
+          <Toaster />
+          <MainHeader />
+          {children}
+          {/* </AuthProvider> */}
         </ReactQueryProvider>
       </body>
     </html>
