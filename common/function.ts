@@ -15,3 +15,9 @@ export const convertPackLabel = (label: string) => {
   }
   return result;
 };
+
+export const removeHtmlAndQuote = (text: string) => {
+  const result = text.replace(/<\/?b>/g, "").replace(/&quot;/g, "");
+
+  return result.replace(/LCK/g, "LCK");
+};

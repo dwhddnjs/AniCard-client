@@ -32,6 +32,11 @@ const MainHeader = ({
       label: "Collection",
       active: pathname === `/collection`,
     },
+    {
+      href: `/news`,
+      label: "News",
+      active: pathname === `/news`,
+    },
   ];
 
   if (
