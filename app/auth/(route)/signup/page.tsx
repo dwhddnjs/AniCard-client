@@ -75,7 +75,7 @@ function SignupPage() {
 
   return (
     <div className="bg-[#1a1a1a] flex justify-end">
-      <div className="bg-[#1e1e1e] rounded-l-3xl flex w-[75%] justify-center items-center h-screen space-x-[10%] shadow-sm">
+      <div className="bg-[#1e1e1e] rounded-l-3xl flex w-[80%] justify-center items-center h-screen space-x-[10%] shadow-sm">
         <div className="w-[30%] space-y-8">
           <div className="space-y-2">
             <h2 className="text-white font-bold text-[32px]">Sign Up</h2>
@@ -122,6 +122,7 @@ function SignupPage() {
                           {...field}
                           className="bg-[#272727] border-[#1a1a1a] text-white h-[48px] placeholder:text-[#555555]"
                           placeholder="example@example.com"
+                          type="email"
                         />
                       </FormControl>
                       <FormMessage />
@@ -141,6 +142,7 @@ function SignupPage() {
                           {...field}
                           className="bg-[#272727] border-[#1a1a1a] text-white h-[48px] placeholder:text-[#555555]"
                           placeholder="*******"
+                          type="password"
                         />
                       </FormControl>
                       <FormMessage />
@@ -160,6 +162,7 @@ function SignupPage() {
                           {...field}
                           className="bg-[#272727] border-[#1a1a1a] text-white h-[48px] placeholder:text-[#555555]"
                           placeholder="*******"
+                          type="password"
                         />
                       </FormControl>
                       <FormMessage />

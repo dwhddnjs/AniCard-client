@@ -3,56 +3,47 @@ import esportIcon from "@/public/images/esport_icon.svg";
 import React, { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { selectedPlayerType } from "../page";
-import TopIcon from "@/public/images/top_icon_p.svg";
-import JglIcon from "@/public/images/jgl_icon_p.svg";
-import MidIcon from "@/public/images/mid_icon_p.svg";
-import AdIcon from "@/public/images/ad_icon_p.svg";
-import SptIcon from "@/public/images/spt_icon_p.svg";
+
 import { Check, RotateCcw, ChevronsDown, ChevronsUp } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { usePostMutation } from "@/hooks/usePostMutation";
 import { API_KEYS } from "@/common/apiKeys";
-import Modal from "@/components/modal";
+import { Modal } from "@/components/modal";
 import { Input } from "@/components/ui/input";
 import { useSaveRosterMutation } from "@/hooks/useSaveRosterMutation";
 import { useRosterBoxStore } from "@/hooks/useRosterBoxStore";
 import { PlayerTypes } from "./roster-card";
 import { useToast } from "@/components/ui/use-toast";
 import { useUpdateRosterMutation } from "@/hooks/useUpdateRosterMutation";
+import {
+  AlertDialog,
+  AlertDialogCancel,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogDescription,
+  AlertDialogTitle,
+  AlertDialogAction,
+  AlertDialogContent,
+} from "@/components/ui/alert-dialog";
+import { useIsLogin } from "@/hooks/useIsLoginStore";
+import { useRouter } from "next/navigation";
+import { Alert } from "@/components/alert";
+import { renderPositionImg } from "@/common/function";
 
 interface RosterBoxProps {
   selectedPlayers: selectedPlayerType[];
 }
 
-export const renderPositionImg = (position: string) => {
-  let result;
-  switch (position) {
-    case "top":
-      result = TopIcon;
-      break;
-    case "jgl":
-      result = JglIcon;
-      break;
-    case "mid":
-      result = MidIcon;
-      break;
-    case "ad":
-      result = AdIcon;
-      break;
-    default:
-      result = SptIcon;
-      break;
-  }
-  return result;
-};
-
 export const RosterBox: React.FC<RosterBoxProps> = ({ selectedPlayers }) => {
   const { trigger, isError } = usePostMutation(API_KEYS.roster);
   const [open, setOpen] = useState(false);
+  const [openAlert, setOpenAlert] = useState(false);
   const [inputValue, setInputValue] = useState("");
   const { mutate: saveTrigger } = useSaveRosterMutation();
   const { onResetBox, rosterId } = useRosterBoxStore();
   const { mutate: updateTrigger } = useUpdateRosterMutation();
+  const { isLogin } = useIsLogin();
+  const { replace } = useRouter();
 
   const { toast } = useToast();
 
@@ -94,6 +85,11 @@ export const RosterBox: React.FC<RosterBoxProps> = ({ selectedPlayers }) => {
   };
 
   const onOpenModal = () => {
+    if (!isLogin) {
+      setOpenAlert(true);
+      return;
+    }
+
     selectedPlayers.forEach((el) => {
       if (el.nickname === "") {
         toast({
@@ -151,34 +147,35 @@ export const RosterBox: React.FC<RosterBoxProps> = ({ selectedPlayers }) => {
           )}
         </div>
       ))}
-      <Modal isOpen={open} onOpenChange={setOpen}>
-        <h2 className="text-[#c4c4c4] font-semibold text-[16px] mb-3 ml-1">
-          {rosterId
+      <Modal
+        isOpen={open}
+        onOpenChange={setOpen}
+        title={
+          rosterId
             ? "수정하실 로스터 이름을 입력해주세요."
-            : "저장하실 로스터 이름을 입력해주세요."}
-        </h2>
+            : "저장하실 로스터 이름을 입력해주세요."
+        }
+        onClick={() => onSaveRoster()}
+      >
         <Input
-          className="bg-[#1e1e1e] border-[#1a1a1a] text-white h-[48px] text-md"
+          className="bg-[#1e1e1e] border-[#1a1a1a] text-white h-[48px] text-md placeholder:text-[#555555] text-sm"
           onChange={(e) => onChangeText(e)}
+          placeholder="최대 12글자 작성 가능"
           value={inputValue}
+          maxLength={12}
         />
-        <div className=" flex justify-end space-x-3 mt-8">
-          <Button
-            size={"lg"}
-            className="bg-[#74A99C] text-[white] font-bold "
-            onClick={onSaveRoster}
-          >
-            저장
-          </Button>
-          <Button
-            size={"lg"}
-            className="bg-[#1e1e1e] font-bold"
-            onClick={() => setOpen(false)}
-          >
-            취소
-          </Button>
-        </div>
       </Modal>
+      <Alert
+        isOpen={openAlert}
+        onOpenChange={setOpenAlert}
+        onClick={() => replace("/auth/login")}
+        title="로그인이 필요합니다"
+      >
+        <div>
+          로스터 저장을 하기 위해 로그인이 필요합니다. 이동 버튼을 누르시면
+          로그인 페이지로 이동합니다.
+        </div>
+      </Alert>
     </div>
   );
 };

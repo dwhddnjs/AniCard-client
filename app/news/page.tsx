@@ -18,11 +18,8 @@ export type ArticleTypes = {
 
 export default function NewsPage() {
   const { data, fetchNextPage, isFetching, isFetchingNextPage } = useNews();
-
   const articleList = data?.flatMap((el: any) => el?.data?.data ?? []) ?? [];
-
   const ref = useRef(null);
-
   const onIntersect = ([entry]: any) => entry.isIntersecting && fetchNextPage();
 
   useObserver({
@@ -35,7 +32,7 @@ export default function NewsPage() {
       <h2 className="text-2xl font-bold text-white pl-[6px]">소식</h2>
       <div className="space-y-4">
         {articleList?.map((article: ArticleTypes) =>
-          isFetching ? (
+          isFetching || isFetchingNextPage ? (
             <Skeleton className="h-[80px] bg-[#272727]" key={article?.title} />
           ) : (
             <NewsItem key={article.title} article={article} />

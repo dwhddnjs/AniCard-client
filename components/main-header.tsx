@@ -5,7 +5,7 @@ import { useParams, usePathname } from "next/navigation";
 import Link from "next/link";
 import { cn } from "@/lib/utils";
 
-const MainHeader = ({
+export const MainHeader = ({
   className,
   ...props
 }: React.HtmlHTMLAttributes<HTMLElement>) => {
@@ -13,24 +13,9 @@ const MainHeader = ({
 
   const routes = [
     {
-      href: `/store`,
-      label: "Store",
-      active: pathname === `/store`,
-    },
-    {
       href: `/roster`,
       label: "Roster",
       active: pathname === `/roster`,
-    },
-    {
-      href: `/packs`,
-      label: "Packs",
-      active: pathname === `/packs`,
-    },
-    {
-      href: `/collection`,
-      label: "Collection",
-      active: pathname === `/collection`,
     },
     {
       href: `/news`,
@@ -46,7 +31,7 @@ const MainHeader = ({
   ) {
     return (
       <div className="w-full flex items-center px-6 h-16 space-x-10  fixed bg-[#1a1a1a] z-10">
-        <h1 className="font-bold text-white">LoLster</h1>
+        <h1 className="font-bold text-white text-[18px] ">LoLStar</h1>
         <nav className="flex items-center space-x-4">
           {routes.map((route) => (
             <Link
@@ -65,5 +50,3 @@ const MainHeader = ({
     );
   }
 };
-
-export default MainHeader;

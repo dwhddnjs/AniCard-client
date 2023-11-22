@@ -8,7 +8,10 @@ export type AxiosParams = {
 };
 
 const baseFetch = async ({ url, method, data, headers }: AxiosParams) => {
-  const token = localStorage.getItem("access-token");
+  const token =
+    typeof window !== "undefined"
+      ? localStorage?.getItem("access-token")
+      : undefined;
 
   const request = {
     baseURL: process.env.NEXT_PUBLIC_API_URL,

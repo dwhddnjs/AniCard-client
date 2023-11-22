@@ -1,12 +1,14 @@
 import { useSavedRoster } from "@/hooks/useSavedRoster";
 import Image from "next/image";
 import React, { FC, useState } from "react";
-import { renderPositionImg } from "./roster-box";
+
 import { Button } from "@/components/ui/button";
 import { X } from "lucide-react";
 import { useRemoveRosterMutation } from "@/hooks/useRemoveRosterMutation";
 import { cn } from "@/lib/utils";
 import { useRosterBoxStore } from "@/hooks/useRosterBoxStore";
+import { positionOrder } from "@/common/constant";
+import { renderPositionImg } from "@/common/function";
 
 export type PlayerTypes = {
   id: number;
@@ -30,6 +32,11 @@ interface RosterCardProps {
 export const RosterCard: FC<RosterCardProps> = ({ roster, onSelectCard }) => {
   const { mutate } = useRemoveRosterMutation(roster.id);
   const { rosterId, onResetBox } = useRosterBoxStore();
+
+  const sortRoster = roster?.players?.sort(
+    (a, b) =>
+      positionOrder.indexOf(a.position) - positionOrder.indexOf(b.position)
+  );
 
   const onRemoveRoster = async (e: any) => {
     e.stopPropagation();
@@ -70,7 +77,7 @@ export const RosterCard: FC<RosterCardProps> = ({ roster, onSelectCard }) => {
         ))}
       </div>
       <div className="grid grid-cols-2 grid-flow-row space-y-[2px] ">
-        {roster?.players?.map((player) => (
+        {sortRoster.map((player) => (
           <div
             key={player.id}
             className="flex text-[12px] text-[white] space-x-1 items-center"

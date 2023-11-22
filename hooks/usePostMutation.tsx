@@ -1,13 +1,17 @@
 import { API_KEYS } from "@/common/apiKeys";
 import { postRequest } from "@/common/axios";
 import { UseMutationResult, useMutation, useQueryClient } from "react-query";
+import { useToast } from "@/components/ui/use-toast";
 
 export const usePostMutation = (key: string) => {
+  const { toast } = useToast();
   const {
     mutateAsync: trigger,
     isLoading,
     isError,
-  } = useMutation((data: any) => postRequest(key, data));
+  } = useMutation({
+    mutationFn: (data: any) => postRequest(key, data),
+  });
 
   return {
     trigger,

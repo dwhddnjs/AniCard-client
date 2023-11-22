@@ -1,4 +1,4 @@
-import MainHeader from "@/components/main-header";
+import { MainHeader } from "@/components/main-header";
 import "./globals.css";
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
@@ -23,11 +23,11 @@ export default function RootLayout({
     <html lang="en">
       <body className={font.className} suppressHydrationWarning={true}>
         <ReactQueryProvider>
-          {/* <AuthProvider> */}
-          <Toaster />
-          <MainHeader />
-          {children}
-          {/* </AuthProvider> */}
+          <AuthProvider>
+            <Toaster />
+            <MainHeader />
+            {children}
+          </AuthProvider>
         </ReactQueryProvider>
       </body>
     </html>

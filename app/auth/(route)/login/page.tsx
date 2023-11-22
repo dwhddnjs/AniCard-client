@@ -22,11 +22,14 @@ import { useRouter } from "next/navigation";
 import { usePostMutation } from "@/hooks/usePostMutation";
 import EsportsIcon from "@/public/images/esport_icon.svg";
 import Image from "next/image";
+import { useIsLogin } from "@/hooks/useIsLoginStore";
+import { useToast } from "@/components/ui/use-toast";
 
 function LoginPage() {
   const { trigger, isLoading, isError } = usePostMutation(API_KEYS.login);
-
+  const { toast } = useToast();
   const { push } = useRouter();
+  const { setIsLogin } = useIsLogin();
 
   const formSchema = z.object({
     email: z
@@ -52,26 +55,31 @@ function LoginPage() {
 
     try {
       const response = await trigger(requestBody);
-      localStorage.setItem(
-        "access-token",
-        response?.data?.tokens?.access_token
-      );
-      localStorage.setItem(
-        "refresh-token",
-        response?.data?.tokens?.refresh_token
-      );
+      if (response) {
+        localStorage.setItem(
+          "access-token",
+          response?.data?.tokens?.access_token
+        );
+        localStorage.setItem(
+          "refresh-token",
+          response?.data?.tokens?.refresh_token
+        );
+        push("/roster");
+        setIsLogin(true);
+      } else {
+        toast({
+          variant: "destructive",
+          title: "아이디가 존재하지 않습니다.",
+        });
+      }
     } catch (error) {
       console.log("request", error);
-    } finally {
-      push("/store");
     }
-
-    return;
   };
 
   return (
     <div className="bg-[#1a1a1a] flex justify-end">
-      <div className="bg-[#1e1e1e] rounded-l-3xl flex w-[75%] justify-center items-center h-screen space-x-[10%] shadow-sm">
+      <div className="bg-[#1e1e1e] rounded-l-3xl flex w-[80%] justify-center items-center h-screen space-x-[10%] shadow-sm">
         <div className="w-[30%] space-y-8">
           <div className="space-y-2">
             <h2 className="text-white font-bold text-[32px]">Login In</h2>
@@ -98,6 +106,7 @@ function LoginPage() {
                           {...field}
                           className="bg-[#272727] border-[#1a1a1a] text-white h-[48px] placeholder:text-[#555555]"
                           placeholder="example@example.com"
+                          type="email"
                         />
                       </FormControl>
                       <FormMessage />
@@ -117,6 +126,7 @@ function LoginPage() {
                           {...field}
                           className="bg-[#272727] border-[#1a1a1a] text-white h-[48px] placeholder:text-[#555555]"
                           placeholder="*******"
+                          type="password"
                         />
                       </FormControl>
                       <FormMessage />
