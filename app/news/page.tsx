@@ -29,7 +29,14 @@ export default function NewsPage() {
 
   return (
     <div className="pt-[100px] px-[24px] space-y-4">
-      <h2 className="text-2xl font-bold text-white pl-[6px]">소식</h2>
+      <div>
+        <h1 className="text-2xl font-bold text-white pl-[6px]">
+          E-Sports 뉴스
+        </h1>
+        <span className="text-xs font-bold text-[#c4c4c4] pl-[6px]">
+          E-Sport 선수와 구단 소식을 빠르게 참고 해보세요.
+        </span>
+      </div>
       <div className="space-y-4">
         {articleList?.map((article: ArticleTypes) =>
           isFetching || isFetchingNextPage ? (

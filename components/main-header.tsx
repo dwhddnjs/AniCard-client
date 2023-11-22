@@ -22,6 +22,11 @@ export const MainHeader = ({
       label: "News",
       active: pathname === `/news`,
     },
+    {
+      href: `/tier`,
+      label: "Tier",
+      active: pathname === `/tier`,
+    },
   ];
 
   if (
