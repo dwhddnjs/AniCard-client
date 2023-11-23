@@ -57,7 +57,7 @@ export default function AuthProvider({
     if (isLogin && token && pathname === "/auth/login") {
       return replace("/roster");
     }
-  }, [isLogin]);
+  }, [pathname, isLogin, replace]);
 
   return <div>{children}</div>;
 }

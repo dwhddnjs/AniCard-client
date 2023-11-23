@@ -1,15 +1,18 @@
 "use client";
 
 import React from "react";
-import { useParams, usePathname } from "next/navigation";
+import { useParams, usePathname, useRouter } from "next/navigation";
 import Link from "next/link";
 import { cn } from "@/lib/utils";
+import EsportIcon from "@/public/images/esport_icon.svg";
+import Image from "next/image";
 
 export const MainHeader = ({
   className,
   ...props
 }: React.HtmlHTMLAttributes<HTMLElement>) => {
   const pathname = usePathname();
+  const { replace } = useRouter();
 
   const routes = [
     {
@@ -17,26 +20,29 @@ export const MainHeader = ({
       label: "Roster",
       active: pathname === `/roster`,
     },
-    {
-      href: `/news`,
-      label: "News",
-      active: pathname === `/news`,
-    },
+
     {
       href: `/tier`,
       label: "Tier",
       active: pathname === `/tier`,
     },
+    {
+      href: `/news`,
+      label: "News",
+      active: pathname === `/news`,
+    },
   ];
 
-  if (
-    pathname !== "/auth/login" &&
-    pathname !== "/auth/signup" &&
-    pathname !== "/"
-  ) {
+  if (pathname !== "/auth/login" && pathname !== "/auth/signup") {
     return (
-      <div className="w-full flex items-center px-6 h-16 space-x-10  fixed bg-[#1a1a1a] z-10">
-        <h1 className="font-bold text-white text-[18px] ">LoLStar</h1>
+      <div className="w-full flex items-center px-7 h-16 space-x-12  fixed bg-[#1a1a1a] z-10">
+        <div
+          className="flex space-x-2 cursor-pointer"
+          onClick={() => replace("/")}
+        >
+          <Image src={EsportIcon} width={24} height={24} alt="" />
+          <h1 className="font-bold text-white text-[18px] ">LoLStar</h1>
+        </div>
         <nav className="flex items-center space-x-4">
           {routes.map((route) => (
             <Link
