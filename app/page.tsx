@@ -84,7 +84,7 @@ export default function HomePage() {
             onClick={() => push("/tier")}
             className="w-[160px] h-[48px] bg-[#74A99C] text-[16px] rounded-none font-bold "
           >
-            뉴스 보기
+            소식을 보기
           </Button>
         </div>
       </div>

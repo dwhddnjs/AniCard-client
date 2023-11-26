@@ -18,21 +18,12 @@ import MidIcon from "@/public/images/mid_icon_p.svg";
 import AdIcon from "@/public/images/ad_icon_p.svg";
 import SptIcon from "@/public/images/spt_icon_p.svg";
 import { Button } from "@/components/ui/button";
-
-export type TierStatus = "S" | "A" | "B" | "C" | "D" | "none";
-
-// export type TItem = {
-//   id: string;
-//   status: TItemStatus;
-//   title: string;
-// };
-
-// export type any = {
-//   [key in TItemStatus]: TItem[];
-// };
+import { LineTab } from "./components/line-tab";
+import { TierPlayer, TierPlayerTypes } from "./components/tier-player";
 
 export default function TierPage() {
   const { data } = useRoster();
+
   const [position, setPosition] = useState("top");
   const [items, setItems] = useState<any>({
     s: [],
@@ -63,11 +54,10 @@ export default function TierPage() {
   };
 
   const onDragEnd = ({ source, destination }: DropResult) => {
-    console.log("destination: ", destination);
-    console.log("source: ", source);
     if (!destination) return;
 
     const scourceKey = source.droppableId as any;
+
     const destinationKey = destination.droppableId as any;
 
     const _items = JSON.parse(JSON.stringify(items)) as typeof items;
@@ -88,71 +78,9 @@ export default function TierPage() {
               당신의 생각하는 선수들의 티어를 정해주세요
             </span>
           </div>
-          <div className="flex w-fit space-x-3 pr-1 items-center">
-            <Button
-              size="icon"
-              className="bg-transparent hover:bg-transparent"
-              onClick={() => onSelectPosition("top")}
-            >
-              <Image
-                src={TopIcon}
-                width={position === "top" ? 36 : 24}
-                height={position === "top" ? 36 : 24}
-                alt=""
-              />
-            </Button>
-            <Button
-              size="icon"
-              className="bg-transparent hover:bg-transparent"
-              onClick={() => onSelectPosition("jgl")}
-            >
-              <Image
-                src={JglIcon}
-                width={position === "jgl" ? 36 : 24}
-                height={position === "jgl" ? 36 : 24}
-                alt=""
-              />
-            </Button>
-            <Button
-              size="icon"
-              className="bg-transparent hover:bg-transparent"
-              onClick={() => onSelectPosition("mid")}
-            >
-              <Image
-                src={MidIcon}
-                width={position === "mid" ? 36 : 24}
-                height={position === "mid" ? 36 : 24}
-                alt=""
-              />
-            </Button>
-            <Button
-              size="icon"
-              className="bg-transparent hover:bg-transparent"
-              onClick={() => onSelectPosition("ad")}
-            >
-              <Image
-                src={AdIcon}
-                width={position === "ad" ? 36 : 24}
-                height={position === "ad" ? 36 : 24}
-                alt=""
-              />
-            </Button>
-            <Button
-              size="icon"
-              className="bg-transparent hover:bg-transparent"
-              onClick={() => onSelectPosition("spt")}
-            >
-              <Image
-                src={SptIcon}
-                width={position === "spt" ? 36 : 24}
-                height={position === "spt" ? 36 : 24}
-                alt=""
-              />
-            </Button>
-          </div>
+          <LineTab position={position} onSelectPosition={onSelectPosition} />
         </div>
       </div>
-
       <div className="mt-4 flex relative h-full">
         <DragDropContext onDragEnd={onDragEnd}>
           <div className="flex flex-col w-full h-full relative">
@@ -169,45 +97,25 @@ export default function TierPage() {
                       )}
                     >
                       <div className="flex space-x-3 flex-nowrap overflow-x-scroll min-w-[100%] pl-[24px] w-full mb-[12px]">
-                        {items[key].map((item: any, index: any) => (
-                          <Draggable
-                            key={item.id}
-                            draggableId={item.id}
-                            index={index}
-                          >
-                            {(provided, snapshot) => (
-                              <div
-                                ref={provided.innerRef}
-                                {...provided.draggableProps}
-                                {...provided.dragHandleProps}
-                              >
+                        {items[key].map(
+                          (item: TierPlayerTypes, index: number) => (
+                            <Draggable
+                              key={item.id}
+                              draggableId={item.id}
+                              index={index}
+                            >
+                              {(provided, snapshot) => (
                                 <div
-                                  className={
-                                    "bg-[#272727] w-[110px] rounded-md my-[8px]  pb-[6px]  shadow-md border-2 border-[#272727] hover:translate-y-2  duration-200 ease-linear"
-                                  }
+                                  ref={provided.innerRef}
+                                  {...provided.draggableProps}
+                                  {...provided.dragHandleProps}
                                 >
-                                  <div className="flex  w-full justify-center">
-                                    <Image
-                                      src={item.img}
-                                      width={80}
-                                      height={1}
-                                      alt=""
-                                    />
-                                  </div>
-                                  <div className="px-[12px]">
-                                    <h2 className="text-white font-bold mt-[3px]">
-                                      {item.nickname}
-                                    </h2>
-                                    <div className="text-[#c4c4c4] font-normal text-[10px] ">
-                                      <p>{item.name}</p>
-                                      <p>{item.team}</p>
-                                    </div>
-                                  </div>
+                                  <TierPlayer player={item} />
                                 </div>
-                              </div>
-                            )}
-                          </Draggable>
-                        ))}
+                              )}
+                            </Draggable>
+                          )
+                        )}
                       </div>
                       {provided.placeholder}
                     </div>
@@ -242,29 +150,7 @@ export default function TierPage() {
                                 {...provided.draggableProps}
                                 {...provided.dragHandleProps}
                               >
-                                <div
-                                  className={
-                                    "bg-[#272727] w-[110px] rounded-md my-[8px]  pb-[6px]  shadow-md border-2 border-[#272727] hover:translate-y-2  duration-200 ease-linear"
-                                  }
-                                >
-                                  <div className="flex  w-full justify-center">
-                                    <Image
-                                      src={item.img}
-                                      width={80}
-                                      height={1}
-                                      alt=""
-                                    />
-                                  </div>
-                                  <div className="px-[12px]">
-                                    <h2 className="text-white font-bold mt-[3px]">
-                                      {item.nickname}
-                                    </h2>
-                                    <div className="text-[#c4c4c4] font-normal text-[10px] ">
-                                      <p>{item.name}</p>
-                                      <p>{item.team}</p>
-                                    </div>
-                                  </div>
-                                </div>
+                                <TierPlayer player={item} />
                               </div>
                             )}
                           </Draggable>
