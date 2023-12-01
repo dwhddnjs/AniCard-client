@@ -15,6 +15,7 @@ export default function AuthProvider({
   const { push, replace } = useRouter();
 
   const pathname = usePathname();
+
   const { isLogin, setIsLogin } = useIsLogin();
 
   const getRefreshToken = async (rt: string) => {
