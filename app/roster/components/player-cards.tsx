@@ -49,27 +49,27 @@ export const PlayerCards: React.FC<PlayerCardsProps> = ({
         {players?.map((player) =>
           isLoading ? (
             <Skeleton
-              key={player.nickname}
+              key={player?.nickname}
               className="flex flex-col items-center bg-[#272727] rounded-md w-[130px] h-[198.25px] px-[12px] pb-[8px] mr-[20px] mb-[20px] shadow-md border-2 border-[#272727]"
             />
           ) : (
-            <HoverCard key={player.nickname}>
+            <HoverCard key={player?.nickname}>
               <HoverCardTrigger>
                 <div
                   className={cn(
                     "bg-[#272727] rounded-md w-[130px] px-[12px] pb-[8px] mr-[20px] mb-[20px] shadow-md border-2 border-[#272727] hover:translate-y-2  duration-200 ease-linear",
-                    player.nickname === selectedLine.nickname &&
+                    player?.nickname === selectedLine?.nickname &&
                       "border-[#c4c4c4]"
                   )}
                   onClick={() => onSelectPlayer(type, player)}
                 >
-                  <Image src={player.img} width={140} height={150} alt="" />
+                  <Image src={player?.img} width={140} height={150} alt="" />
                   <h2 className="text-white font-bold mt-[3px]">
-                    {player.nickname}
+                    {player?.nickname}
                   </h2>
                   <div className="text-[#c4c4c4] font-normal text-xs ">
-                    <p>{player.name}</p>
-                    <p>{player.team}</p>
+                    <p>{player?.name}</p>
+                    <p>{player?.team}</p>
                   </div>
                 </div>
               </HoverCardTrigger>
