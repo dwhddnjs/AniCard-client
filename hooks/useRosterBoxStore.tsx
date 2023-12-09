@@ -77,7 +77,7 @@ export const useRosterBoxStore = create<useRosterBoxStoreTypes>((set, get) => ({
 
   onUpdatePlayers: (players: selectedPlayerType[]) => {
     const prevArr = get().selectedPlayers;
-    const result: any = [];
+    const result: selectedPlayerType[] = [];
     prevArr.forEach((prevEl) => {
       players.forEach((el) => {
         if (prevEl.position === el.position) {

@@ -91,7 +91,7 @@ export default function RosterPage() {
       </div>
       <div className=" w-[18%] h-[100%] bg-[#1a1a1a] py-[70px] px-[18px] space-y-5 fixed right-0  overflow-scroll">
         {rosterData?.length > 0 ? (
-          rosterData?.map((roster: any) => (
+          rosterData?.map((roster: RosterTypes) => (
             <RosterCard
               key={roster.id}
               roster={roster}

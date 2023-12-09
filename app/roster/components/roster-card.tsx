@@ -38,7 +38,7 @@ export const RosterCard: FC<RosterCardProps> = ({ roster, onSelectCard }) => {
       positionOrder.indexOf(a.position) - positionOrder.indexOf(b.position)
   );
 
-  const onRemoveRoster = async (e: any) => {
+  const onRemoveRoster = async (e: React.ChangeEvent<HTMLInputElement>) => {
     e.stopPropagation();
     try {
       mutate();

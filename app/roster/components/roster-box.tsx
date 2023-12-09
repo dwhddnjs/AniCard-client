@@ -80,7 +80,7 @@ export const RosterBox: React.FC<RosterBoxProps> = ({ selectedPlayers }) => {
     }
   };
 
-  const onChangeText = (e: any) => {
+  const onChangeText = (e: React.ChangeEvent<HTMLInputElement>) => {
     setInputValue(e.target.value);
   };
 
