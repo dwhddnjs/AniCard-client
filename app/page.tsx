@@ -89,7 +89,6 @@ export default function HomePage() {
         </div>
       </div>
       {/* footer */}
-
       <div className="w-full  bg-[#1e1e1e] flex justify-end items-end p-3">
         <div className="flex items-center justify-center space-x-2">
           <Mail size={24} color="#c4c4c4" />

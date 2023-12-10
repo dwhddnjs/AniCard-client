@@ -6,7 +6,6 @@ import * as z from "zod";
 import {
   Form,
   FormControl,
-  FormDescription,
   FormField,
   FormItem,
   FormLabel,
@@ -14,10 +13,8 @@ import {
 } from "@/components/ui/form";
 import { useForm } from "react-hook-form";
 import { Input } from "@/components/ui/input";
-import { fetcher, postRequest } from "@/common/axios";
 import { Button } from "@/components/ui/button";
 import { API_KEYS } from "@/common/apiKeys";
-import { useMutation } from "react-query";
 import { useRouter } from "next/navigation";
 import { usePostMutation } from "@/hooks/usePostMutation";
 import EsportsIcon from "@/public/images/esport_icon.svg";

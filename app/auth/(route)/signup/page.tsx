@@ -14,15 +14,16 @@ import {
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { useForm } from "react-hook-form";
-import { postRequest } from "@/common/axios";
 import { API_KEYS } from "@/common/apiKeys";
 import { usePostMutation } from "@/hooks/usePostMutation";
 import { useRouter } from "next/navigation";
 import EsportsIcon from "@/public/images/esport_icon.svg";
+import { useToast } from "@/components/ui/use-toast";
 import Image from "next/image";
 
 function SignupPage() {
   const { trigger, isLoading } = usePostMutation(API_KEYS.signup);
+  const { toast } = useToast();
   const { push } = useRouter();
 
   const formSchema = z.object({
@@ -65,12 +66,14 @@ function SignupPage() {
         "refresh-token",
         response?.data?.tokens?.refresh_token
       );
+      toast({
+        title: "회원가입이 되었습니다",
+      });
+      push("/auth/login");
     } catch (error) {
       console.log("request", error);
-    } finally {
-      push("/auth/login");
+      return;
     }
-    return;
   };
 
   return (
