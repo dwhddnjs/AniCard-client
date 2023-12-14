@@ -26,19 +26,24 @@ function SignupPage() {
   const { toast } = useToast();
   const { push } = useRouter();
 
-  const formSchema = z.object({
-    name: z.string().min(2, {
-      message: "최소 2글자 이상 작성해주세요",
-    }),
-    email: z
-      .string()
-      .min(1, { message: "최소 1글자 이상 작성해주세요" })
-      .email("이메일 주소가 유효하지 않습니다"),
-    password: z.string().min(7, { message: "최소 7글자 이상 작성해주세요" }),
-    checkPassword: z
-      .string()
-      .min(7, { message: "최소 7글자 이상 작성해주세요" }),
-  });
+  const formSchema = z
+    .object({
+      name: z.string().min(2, {
+        message: "최소 2글자 이상 작성해주세요",
+      }),
+      email: z
+        .string()
+        .min(1, { message: "최소 1글자 이상 작성해주세요" })
+        .email("이메일 주소가 유효하지 않습니다"),
+      password: z.string().min(7, { message: "최소 7글자 이상 작성해주세요" }),
+      checkPassword: z
+        .string()
+        .min(7, { message: "최소 7글자 이상 작성해주세요" }),
+    })
+    .refine((data: any) => data.password === data.checkPassword, {
+      message: "비밀번호가 일치하지 않습니다",
+      path: ["checkPassword"],
+    });
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -58,18 +63,25 @@ function SignupPage() {
     };
     try {
       const response = await trigger(requestBody);
-      localStorage.setItem(
-        "access-token",
-        response?.data?.tokens?.access_token
-      );
-      localStorage.setItem(
-        "refresh-token",
-        response?.data?.tokens?.refresh_token
-      );
-      toast({
-        title: "회원가입이 되었습니다",
-      });
-      push("/auth/login");
+      if (response) {
+        localStorage.setItem(
+          "access-token",
+          response?.data?.tokens?.access_token
+        );
+        localStorage.setItem(
+          "refresh-token",
+          response?.data?.tokens?.refresh_token
+        );
+        push("/auth/login");
+        toast({
+          title: "회원가입 되었습니다",
+        });
+      } else {
+        toast({
+          variant: "destructive",
+          title: "이미 존재하는 계정입니다",
+        });
+      }
     } catch (error) {
       console.log("request", error);
       return;

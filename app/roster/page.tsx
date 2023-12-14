@@ -32,8 +32,8 @@ export type selectedPlayerType = {
 export default function RosterPage() {
   const { data, isLoading } = useRoster();
   const { data: rosterData } = useSavedRoster();
+  console.log("rosterData: ", rosterData);
   const { isLogin } = useIsLogin();
-  console.log("isLogin: ", isLogin);
 
   const {
     selectedPlayers,

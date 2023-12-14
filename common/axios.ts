@@ -37,7 +37,7 @@ const fetcher = (url: string) => {
   return baseFetch({ url, method: "GET" });
 };
 
-const postRequest = (url: string, arg: any) => {
+const postRequest = (url: string, arg?: any) => {
   return baseFetch({ url, method: "POST", data: arg });
 };
 

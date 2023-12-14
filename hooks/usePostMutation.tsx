@@ -10,7 +10,14 @@ export const usePostMutation = (key: string) => {
     isLoading,
     isError,
   } = useMutation({
-    mutationFn: (data: any) => postRequest(key, data),
+    mutationFn: (data?: any) => postRequest(key, data),
+
+    onError: (error: any) => {
+      toast({
+        variant: "destructive",
+        title: `${error?.message}`,
+      });
+    },
   });
 
   return {
