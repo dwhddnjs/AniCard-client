@@ -15,17 +15,19 @@ import { useForm } from "react-hook-form";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { API_KEYS } from "@/common/apiKeys";
-import { useRouter } from "next/navigation";
+import { useRouter, redirect } from "next/navigation";
+import { useRouter as dd } from "next/router";
 import { usePostMutation } from "@/hooks/usePostMutation";
 import EsportsIcon from "@/public/images/esport_icon.svg";
 import Image from "next/image";
 import { useIsLogin } from "@/hooks/useIsLoginStore";
 import { useToast } from "@/components/ui/use-toast";
+import { fetcher } from "@/common/axios";
 
 function LoginPage() {
   const { trigger, isLoading, isError } = usePostMutation(API_KEYS.login);
   const { toast } = useToast();
-  const { push } = useRouter();
+  const { push, replace } = useRouter();
   const { setIsLogin } = useIsLogin();
 
   const formSchema = z.object({
@@ -43,6 +45,10 @@ function LoginPage() {
       password: "",
     },
   });
+
+  const onRedirectAuth = async () => {
+    replace(`${process.env.NEXT_PUBLIC_API_URL}/api/v1/auth/google` as string);
+  };
 
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
     const requestBody = {
@@ -139,6 +145,7 @@ function LoginPage() {
                 >
                   로그인
                 </Button>
+
                 <Button
                   type="submit"
                   disabled={isLoading}
@@ -156,6 +163,13 @@ function LoginPage() {
         </div>
         <div>
           <Image src={EsportsIcon} width={320} height={320} alt="" />
+          {/* <Button
+            className="w-full h-[48px] rounded-lg bg-[#74A99C] font-bold text-md"
+            onClick={onRedirectAuth}
+            disabled={isLoading}
+          >
+            구글
+          </Button> */}
         </div>
       </div>
     </div>
