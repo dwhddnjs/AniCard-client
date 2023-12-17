@@ -23,12 +23,31 @@ import Image from "next/image";
 import { useIsLogin } from "@/hooks/useIsLoginStore";
 import { useToast } from "@/components/ui/use-toast";
 import { fetcher } from "@/common/axios";
+import { useGoogleLogin } from "@react-oauth/google";
+import { getSession, signIn } from "next-auth/react";
 
 function LoginPage() {
   const { trigger, isLoading, isError } = usePostMutation(API_KEYS.login);
   const { toast } = useToast();
   const { push, replace } = useRouter();
   const { setIsLogin } = useIsLogin();
+
+  // const googleAuthLogin = useGoogleLogin({
+  //   scope: "email profile",
+  //   onSuccess: async () => {
+  //     const res = await fetcher("/api/v1/auth/google");
+  //     console.log("res: ", res);
+  //   },
+  //   onError: (errorResponse) => {
+  //     console.error(errorResponse);
+  //   },
+  //   flow: "auth-code",
+  // });
+
+  // const onRedirectAuth = async () => {
+  //   const res = await fetcher("/api/v1/auth/google");
+  //   console.log("res: ", res);
+  // };
 
   const formSchema = z.object({
     email: z
@@ -45,10 +64,6 @@ function LoginPage() {
       password: "",
     },
   });
-
-  const onRedirectAuth = async () => {
-    replace(`${process.env.NEXT_PUBLIC_API_URL}/api/v1/auth/google` as string);
-  };
 
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
     const requestBody = {
@@ -164,7 +179,8 @@ function LoginPage() {
         <div>
           <Image src={EsportsIcon} width={320} height={320} alt="" />
           {/* <Button
-            className="w-full h-[48px] rounded-lg bg-[#74A99C] font-bold text-md"
+            size="icon"
+            className="w-full h-[48px] rounded-lg bg-[red] font-bold text-md"
             onClick={onRedirectAuth}
             disabled={isLoading}
           >
