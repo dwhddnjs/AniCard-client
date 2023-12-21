@@ -1,2 +1,2 @@
 ##URL
-www.lolstar.vercel.app
+https://lolstar.vercel.app/
