@@ -23,8 +23,6 @@ import Image from "next/image";
 import { useIsLogin } from "@/hooks/useIsLoginStore";
 import { useToast } from "@/components/ui/use-toast";
 import { fetcher } from "@/common/axios";
-import { useGoogleLogin } from "@react-oauth/google";
-import { getSession, signIn } from "next-auth/react";
 
 function LoginPage() {
   const { trigger, isLoading, isError } = usePostMutation(API_KEYS.login);
