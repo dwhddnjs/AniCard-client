@@ -22,12 +22,15 @@ import EsportsIcon from "@/public/images/esport_icon.svg";
 import Image from "next/image";
 import { useIsLogin } from "@/hooks/useIsLoginStore";
 import { useToast } from "@/components/ui/use-toast";
+import { signIn, useSession } from "next-auth/react";
 
 function LoginPage() {
   const { trigger, isLoading, isError } = usePostMutation(API_KEYS.login);
   const { toast } = useToast();
   const { push, replace } = useRouter();
   const { setIsLogin } = useIsLogin();
+  const { data: session } = useSession();
+  console.log("session: ", session);
 
   const formSchema = z.object({
     email: z
@@ -140,7 +143,14 @@ function LoginPage() {
                 >
                   로그인
                 </Button>
-
+                {/* <Button
+                  className="w-full h-[48px] rounded-lg bg-[#eeeeee] font-bold text-md"
+                  onClick={() => signIn()}
+                  type="submit"
+                  disabled={isLoading}
+                >
+                  구글 헿
+                </Button> */}
                 <Button
                   type="submit"
                   disabled={isLoading}

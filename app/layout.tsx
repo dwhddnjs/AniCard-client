@@ -6,7 +6,7 @@ import { useParams } from "next/navigation";
 import ReactQueryProvider from "@/providers/react-query-provider";
 import AuthProvider from "@/providers/auth-provider";
 import { Toaster } from "@/components/ui/toaster";
-import { GoogleOAuthProvider } from "@/providers/google-auth-provider";
+import GoogleOauthProvider from "@/providers/google-oauth-provider";
 
 const font = Inter({ subsets: ["latin"] });
 
@@ -24,13 +24,13 @@ export default function RootLayout({
     <html lang="en">
       <body className={font.className} suppressHydrationWarning={true}>
         <ReactQueryProvider>
-          <GoogleOAuthProvider>
+          <GoogleOauthProvider>
             <AuthProvider>
               <Toaster />
               <MainHeader />
               {children}
             </AuthProvider>
-          </GoogleOAuthProvider>
+          </GoogleOauthProvider>
         </ReactQueryProvider>
       </body>
     </html>
