@@ -22,30 +22,12 @@ import EsportsIcon from "@/public/images/esport_icon.svg";
 import Image from "next/image";
 import { useIsLogin } from "@/hooks/useIsLoginStore";
 import { useToast } from "@/components/ui/use-toast";
-import { fetcher } from "@/common/axios";
 
 function LoginPage() {
   const { trigger, isLoading, isError } = usePostMutation(API_KEYS.login);
   const { toast } = useToast();
   const { push, replace } = useRouter();
   const { setIsLogin } = useIsLogin();
-
-  // const googleAuthLogin = useGoogleLogin({
-  //   scope: "email profile",
-  //   onSuccess: async () => {
-  //     const res = await fetcher("/api/v1/auth/google");
-  //     console.log("res: ", res);
-  //   },
-  //   onError: (errorResponse) => {
-  //     console.error(errorResponse);
-  //   },
-  //   flow: "auth-code",
-  // });
-
-  // const onRedirectAuth = async () => {
-  //   const res = await fetcher("/api/v1/auth/google");
-  //   console.log("res: ", res);
-  // };
 
   const formSchema = z.object({
     email: z
@@ -176,14 +158,6 @@ function LoginPage() {
         </div>
         <div>
           <Image src={EsportsIcon} width={320} height={320} alt="" />
-          {/* <Button
-            size="icon"
-            className="w-full h-[48px] rounded-lg bg-[red] font-bold text-md"
-            onClick={onRedirectAuth}
-            disabled={isLoading}
-          >
-            구글
-          </Button> */}
         </div>
       </div>
     </div>
