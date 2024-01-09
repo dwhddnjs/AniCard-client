@@ -21,6 +21,7 @@ import { RosterCard, RosterTypes } from "./components/roster-card";
 import { Skeleton } from "@/components/ui/skeleton";
 import { EmptyState } from "@/components/empty-state";
 import { useIsLogin } from "@/hooks/useIsLoginStore";
+import { useSession } from "next-auth/react";
 
 export type selectedPlayerType = {
   id: number;

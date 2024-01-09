@@ -143,14 +143,14 @@ function LoginPage() {
                 >
                   로그인
                 </Button>
-                {/* <Button
+                <Button
                   className="w-full h-[48px] rounded-lg bg-[#eeeeee] font-bold text-md"
-                  onClick={() => signIn()}
+                  onClick={() => signIn("google")}
                   type="submit"
                   disabled={isLoading}
                 >
                   구글 헿
-                </Button> */}
+                </Button>
                 <Button
                   type="submit"
                   disabled={isLoading}
