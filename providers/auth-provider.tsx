@@ -6,6 +6,8 @@ import jwt from "jsonwebtoken";
 import axios from "axios";
 import { API_KEYS } from "@/common/apiKeys";
 import { useIsLogin } from "@/hooks/useIsLoginStore";
+import { useSession } from "next-auth/react";
+import { postRequest } from "@/common/axios";
 
 export default function AuthProvider({
   children,
@@ -13,6 +15,7 @@ export default function AuthProvider({
   children: React.ReactNode;
 }) {
   const { push, replace } = useRouter();
+  const { data: session } = useSession();
 
   const pathname = usePathname();
 
@@ -31,6 +34,28 @@ export default function AuthProvider({
     localStorage.setItem("refresh-token", res?.data?.data?.refresh_token);
     setIsLogin(true);
   };
+
+  useEffect(() => {
+    (async () => {
+      if (session) {
+        try {
+          const requestBody = {
+            email: session?.user?.email,
+            name: session?.user?.name,
+          };
+          const res = await postRequest(API_KEYS.google, requestBody);
+          console.log("res: ", res);
+          localStorage.setItem("access-token", res?.data?.tokens?.access_token);
+          localStorage.setItem(
+            "refresh-token",
+            res?.data?.tokens?.refresh_token
+          );
+        } catch (error) {
+          console.log("error: ", error);
+        }
+      }
+    })();
+  }, [session]);
 
   useEffect(() => {
     const token = localStorage.getItem("access-token") as string;

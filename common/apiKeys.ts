@@ -1,6 +1,6 @@
 export const API_KEYS = {
   login: `/api/v1/auth/login`,
-  google: "/api/v1/auth/google/redirect",
+  google: "/api/v1/auth/google",
   logout: "/api/v1/auth/logout",
   signup: `/api/v1/auth/signup`,
   refresh: `/api/v1/auth/refresh`,
