@@ -23,6 +23,7 @@ import Image from "next/image";
 import { useIsLogin } from "@/hooks/useIsLoginStore";
 import { useToast } from "@/components/ui/use-toast";
 import { signIn, useSession } from "next-auth/react";
+import Google from "@/public/images/google.svg";
 
 function LoginPage() {
   const { trigger, isLoading, isError } = usePostMutation(API_KEYS.login);
@@ -30,7 +31,6 @@ function LoginPage() {
   const { push, replace } = useRouter();
   const { setIsLogin } = useIsLogin();
   const { data: session } = useSession();
-  console.log("session: ", session);
 
   const formSchema = z.object({
     email: z
@@ -135,7 +135,7 @@ function LoginPage() {
                   )}
                 />
               </div>
-              <div className="mt-12 flex flex-col">
+              <div className="mt-10 flex flex-col">
                 <Button
                   className="w-full h-[48px] rounded-lg bg-[#74A99C] font-bold text-md"
                   type="submit"
@@ -143,14 +143,24 @@ function LoginPage() {
                 >
                   로그인
                 </Button>
+                <div className=" flex justify-center items-center space-x-4 py-3">
+                  <div className="w-full bg-[#c4c4c4] h-[1px] " />
+                  <p className="text-[#c4c4c4] text-[12px]">OR</p>
+                  <div className="w-full bg-[#c4c4c4] h-[1px] " />
+                </div>
                 <Button
-                  className="w-full h-[48px] rounded-lg bg-[#eeeeee] font-bold text-md"
-                  onClick={() => signIn("google")}
+                  className="w-full h-[46px] bg-[#eeeeee] text-sm font-bold flex flex-start space-x-3 rounded-none"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    signIn("google");
+                  }}
                   type="submit"
                   disabled={isLoading}
                 >
-                  구글 헿
+                  <Image src={Google} width={24} height={24} alt="" />
+                  <p className="text-[#c4c4c4]">구글 로그인</p>
                 </Button>
+
                 <Button
                   type="submit"
                   disabled={isLoading}
@@ -158,7 +168,7 @@ function LoginPage() {
                     e.preventDefault();
                     push("/auth/signup");
                   }}
-                  className="bg-transparent p-0 text-xs text-[#74A99C] hover:bg-transparent"
+                  className="bg-transparent p-0 text-xs text-[#74A99C] hover:bg-transparent mt-3"
                 >
                   회원가입을 원하시나요 ?
                 </Button>
