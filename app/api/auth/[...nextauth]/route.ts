@@ -18,7 +18,7 @@ const handler = NextAuth({
       return session;
     },
     async redirect() {
-      return `${process.env.NEXT_PUBLIC_API_URL}/roster`;
+      return `${process.env.NEXT_PUBLIC_URL}/roster`;
     },
   },
 });
