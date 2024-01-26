@@ -30,7 +30,6 @@ function LoginPage() {
   const { toast } = useToast();
   const { push, replace } = useRouter();
   const { setIsLogin } = useIsLogin();
-  const { data: session } = useSession();
 
   const formSchema = z.object({
     email: z

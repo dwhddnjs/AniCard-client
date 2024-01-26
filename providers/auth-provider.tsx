@@ -58,32 +58,33 @@ export default function AuthProvider({
   }, [session]);
 
   useEffect(() => {
-    const token = localStorage.getItem("access-token") as string;
-    const refreshToken = localStorage.getItem("refresh-token") as string;
+    (async () => {
+      const token = localStorage.getItem("access-token") as string;
+      const refreshToken = localStorage.getItem("refresh-token") as string;
+      try {
+        const decodedToken = jwt.verify(
+          token,
+          process.env.NEXT_PUBLIC_ACCESS_SECRET_KEY as string
+        ) as { exp: number };
 
-    try {
-      const decodedToken = jwt.verify(
-        token,
-        process.env.NEXT_PUBLIC_ACCESS_SECRET_KEY as string
-      ) as { exp: number };
+        const currentTimestamp = Math.floor(Date.now() / 1000);
 
-      const currentTimestamp = Math.floor(Date.now() / 1000);
-
-      if (decodedToken.exp <= currentTimestamp) {
-        getRefreshToken(refreshToken);
-      } else {
-        setIsLogin(true);
+        if (decodedToken.exp <= currentTimestamp) {
+          await getRefreshToken(refreshToken);
+        } else {
+          setIsLogin(true);
+        }
+      } catch (error) {
+        if (error instanceof jwt.TokenExpiredError) {
+          await getRefreshToken(refreshToken);
+        }
       }
-    } catch (error) {
-      if (error instanceof jwt.TokenExpiredError) {
-        getRefreshToken(refreshToken);
-      }
-    }
 
-    if (isLogin && token && pathname === "/auth/login") {
-      return replace("/roster");
-    }
-  }, [pathname, isLogin, replace]);
+      if (isLogin && token && pathname === "/auth/login") {
+        return replace("/roster");
+      }
+    })();
+  }, [pathname, isLogin]);
 
   return <div>{children}</div>;
 }
