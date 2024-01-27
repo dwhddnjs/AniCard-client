@@ -1,15 +1,17 @@
-import React, { FC } from "react";
-import TopIcon from "@/public/images/top_icon_p.svg";
-import JglIcon from "@/public/images/jgl_icon_p.svg";
-import MidIcon from "@/public/images/mid_icon_p.svg";
-import AdIcon from "@/public/images/ad_icon_p.svg";
-import SptIcon from "@/public/images/spt_icon_p.svg";
-import { Button } from "@/components/ui/button";
-import Image from "next/image";
+"use client"
+
+import React, { FC } from "react"
+import TopIcon from "@/public/images/top_icon_p.svg"
+import JglIcon from "@/public/images/jgl_icon_p.svg"
+import MidIcon from "@/public/images/mid_icon_p.svg"
+import AdIcon from "@/public/images/ad_icon_p.svg"
+import SptIcon from "@/public/images/spt_icon_p.svg"
+import { Button } from "@/components/ui/button"
+import Image from "next/image"
 
 interface LineTabProps {
-  position: string;
-  onSelectPosition: (position: string) => void;
+  position: string
+  onSelectPosition: (position: string) => void
 }
 
 export const LineTab: FC<LineTabProps> = ({ position, onSelectPosition }) => {
@@ -76,5 +78,5 @@ export const LineTab: FC<LineTabProps> = ({ position, onSelectPosition }) => {
         />
       </Button>
     </div>
-  );
-};
+  )
+}

@@ -1,4 +1,6 @@
-import React from "react";
+"use client"
+
+import React from "react"
 import {
   Dialog,
   DialogContent,
@@ -7,21 +9,20 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from "./ui/dialog";
-import { cn } from "@/lib/utils";
-import { DialogClose } from "@radix-ui/react-dialog";
-import { X } from "lucide-react";
-import { Button } from "./ui/button";
+} from "./ui/dialog"
+import { cn } from "@/lib/utils"
+import { DialogClose } from "@radix-ui/react-dialog"
+import { X } from "lucide-react"
 
 interface ModalProps {
-  title?: string;
-  description?: string;
-  isOpen: boolean;
-  onOpenChange: React.Dispatch<React.SetStateAction<boolean>>;
-  children: React.ReactNode;
-  className?: string;
-  disbleClose?: boolean;
-  onClick?: () => void;
+  title?: string
+  description?: string
+  isOpen: boolean
+  onOpenChange: React.Dispatch<React.SetStateAction<boolean>>
+  children: React.ReactNode
+  className?: string
+  disbleClose?: boolean
+  onClick?: () => void
 }
 
 export const Modal: React.FC<ModalProps> = ({
@@ -65,5 +66,5 @@ export const Modal: React.FC<ModalProps> = ({
         </DialogFooter>
       </DialogContent>
     </Dialog>
-  );
-};
+  )
+}

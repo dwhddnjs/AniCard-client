@@ -1,53 +1,40 @@
-import { useSavedRoster } from "@/hooks/useSavedRoster";
-import Image from "next/image";
-import React, { FC, useState } from "react";
+"use client"
 
-import { Button } from "@/components/ui/button";
-import { X } from "lucide-react";
-import { useRemoveRosterMutation } from "@/hooks/useRemoveRosterMutation";
-import { cn } from "@/lib/utils";
-import { useRosterBoxStore } from "@/hooks/useRosterBoxStore";
-import { positionOrder } from "@/common/constant";
-import { renderPositionImg } from "@/common/function";
-
-export type PlayerTypes = {
-  id: number;
-  nickname: string;
-  position: string;
-  img: string;
-};
-
-export type RosterTypes = {
-  id: number;
-  title: string;
-  userId: string;
-  players: PlayerTypes[];
-};
+import Image from "next/image"
+import React, { FC, useState } from "react"
+import { Button } from "@/components/ui/button"
+import { X } from "lucide-react"
+import { useRemoveRosterMutation } from "@/hooks/useRemoveRosterMutation"
+import { cn } from "@/lib/utils"
+import { useRosterBoxStore } from "@/hooks/useRosterBoxStore"
+import { positionOrder } from "@/common/constant"
+import { renderPositionImg } from "@/common/function"
+import { RosterTypes } from "@/types/Roster-type"
 
 interface RosterCardProps {
-  roster: RosterTypes;
-  onSelectCard: (roster: RosterTypes) => void;
+  roster: RosterTypes
+  onSelectCard: (roster: RosterTypes) => void
 }
 
 export const RosterCard: FC<RosterCardProps> = ({ roster, onSelectCard }) => {
-  const { mutate } = useRemoveRosterMutation(roster.id);
-  const { rosterId, onResetBox } = useRosterBoxStore();
+  const { mutate } = useRemoveRosterMutation(roster.id)
+  const { rosterId, onResetBox } = useRosterBoxStore()
 
   const sortRoster = roster?.players?.sort(
     (a, b) =>
       positionOrder.indexOf(a.position) - positionOrder.indexOf(b.position)
-  );
+  )
 
   const onRemoveRoster = async (e: React.MouseEvent<HTMLButtonElement>) => {
-    e.stopPropagation();
+    e.stopPropagation()
     try {
-      mutate();
+      mutate()
     } catch (error) {
-      console.log(error);
+      console.log(error)
     } finally {
-      onResetBox();
+      onResetBox()
     }
-  };
+  }
 
   return (
     <div
@@ -94,5 +81,5 @@ export const RosterCard: FC<RosterCardProps> = ({ roster, onSelectCard }) => {
       </div>
       <div className="w-0 h-0 border-t-[32px] border-t-transparent border-r-[32px] border-r-[#272727] rounded-br-md absolute bottom-0 right-0" />
     </div>
-  );
-};
+  )
+}

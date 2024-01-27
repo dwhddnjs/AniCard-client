@@ -1,29 +1,24 @@
+"use client"
+
 import {
   HoverCard,
   HoverCardContent,
   HoverCardTrigger,
-} from "@/components/ui/hover-card";
-import { Skeleton } from "@/components/ui/skeleton";
-import { useRosterBoxStore } from "@/hooks/useRosterBoxStore";
-import { cn } from "@/lib/utils";
-import { Medal } from "lucide-react";
-import Image from "next/image";
-import React from "react";
-
-export type PlayerTypes = {
-  nickname: string;
-  team: string;
-  img: string;
-  name: string;
-  career: string[];
-};
+} from "@/components/ui/hover-card"
+import { Skeleton } from "@/components/ui/skeleton"
+import { useRosterBoxStore } from "@/hooks/useRosterBoxStore"
+import { cn } from "@/lib/utils"
+import { Medal } from "lucide-react"
+import Image from "next/image"
+import React from "react"
+import { PlayerTypes } from "@/types/Player-type"
 
 interface PlayerCardsProps {
-  players: PlayerTypes[];
-  type: string;
-  icon: string;
-  onSelectPlayer: (type: string, player: PlayerTypes) => void;
-  isLoading: boolean;
+  players: PlayerTypes[]
+  type: string
+  icon: string
+  onSelectPlayer: (type: string, player: PlayerTypes) => void
+  isLoading: boolean
 }
 
 export const PlayerCards: React.FC<PlayerCardsProps> = ({
@@ -33,11 +28,11 @@ export const PlayerCards: React.FC<PlayerCardsProps> = ({
   onSelectPlayer,
   isLoading,
 }) => {
-  const { selectedPlayers } = useRosterBoxStore();
+  const { selectedPlayers } = useRosterBoxStore()
 
   const selectedLine = selectedPlayers.filter(
     (el) => el.position === type.toLowerCase()
-  )[0];
+  )[0]
 
   return (
     <div className="z-0">
@@ -98,5 +93,5 @@ export const PlayerCards: React.FC<PlayerCardsProps> = ({
         )}
       </div>
     </div>
-  );
-};
+  )
+}

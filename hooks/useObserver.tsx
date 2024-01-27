@@ -1,11 +1,11 @@
-import { useEffect, MutableRefObject } from "react";
+import { useEffect, MutableRefObject } from "react"
 
 interface UseObserverProps {
-  target: MutableRefObject<Element | null>;
-  root?: Element | null;
-  rootMargin?: string;
-  threshold?: number;
-  onIntersect: IntersectionObserverCallback;
+  target: MutableRefObject<Element | null>
+  root?: Element | null
+  rootMargin?: string
+  threshold?: number
+  onIntersect: IntersectionObserverCallback
 }
 
 export const useObserver = ({
@@ -16,21 +16,21 @@ export const useObserver = ({
   onIntersect,
 }: UseObserverProps): void => {
   useEffect(() => {
-    let observer: IntersectionObserver | null = null;
+    let observer: IntersectionObserver | null = null
 
     if (target.current) {
       observer = new IntersectionObserver(onIntersect, {
         root,
         rootMargin,
         threshold,
-      });
-      observer.observe(target.current);
+      })
+      observer.observe(target.current)
     }
 
     return () => {
       if (observer) {
-        observer.disconnect();
+        observer.disconnect()
       }
-    };
-  }, [target, root, rootMargin, threshold, onIntersect]);
-};
+    }
+  }, [target, root, rootMargin, threshold, onIntersect])
+}

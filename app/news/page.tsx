@@ -1,31 +1,24 @@
-"use client";
+"use client"
 
-import { removeHtmlAndQuote } from "@/common/function";
-import { useNews } from "@/hooks/useNews";
-import { Link as LinkIcon } from "lucide-react";
-import React, { useRef } from "react";
-import { NewsItem } from "./components/news-item";
-import { Skeleton } from "@/components/ui/skeleton";
-import { useObserver } from "@/hooks/useObserver";
-
-export type ArticleTypes = {
-  description: string;
-  title: string;
-  link: string;
-  originallink: string;
-  pubDate: string;
-};
+import { ResponseData, useNews } from "@/hooks/useNews"
+import React, { useRef } from "react"
+import { NewsItem } from "./components/news-item"
+import { Skeleton } from "@/components/ui/skeleton"
+import { useObserver } from "@/hooks/useObserver"
+import { ArticleTypes } from "@/types/Article-type"
 
 export default function NewsPage() {
-  const { data, fetchNextPage, isFetching, isFetchingNextPage } = useNews();
-  const articleList = data?.flatMap((el: any) => el?.data?.data ?? []) ?? [];
-  const ref = useRef(null);
-  const onIntersect = ([entry]: any) => entry.isIntersecting && fetchNextPage();
+  const { data, fetchNextPage, isFetching, isFetchingNextPage } = useNews()
+  const articleList =
+    data?.flatMap((el: ResponseData) => el?.data?.data ?? []) ?? []
+  const ref = useRef(null)
+  const onIntersect = ([entry]: IntersectionObserverEntry[]) =>
+    entry.isIntersecting && fetchNextPage()
 
   useObserver({
     target: ref,
     onIntersect,
-  });
+  })
 
   return (
     <div className="pt-[100px] px-[24px] space-y-4">
@@ -48,5 +41,5 @@ export default function NewsPage() {
       </div>
       <div ref={ref} />
     </div>
-  );
+  )
 }

@@ -1,15 +1,15 @@
-"use client";
-import { Button } from "@/components/ui/button";
-import React from "react";
-import Image from "next/image";
-import Roster from "@/public/images/roster.png";
-import News from "@/public/images/news.png";
-import Tier from "@/public/images/tier.png";
-import { useRouter } from "next/navigation";
-import { ChevronLeft, ChevronRight, Mail } from "lucide-react";
+"use client"
+import { Button } from "@/components/ui/button"
+import React from "react"
+import Image from "next/image"
+import Roster from "@/public/images/roster.png"
+import News from "@/public/images/news.png"
+import Tier from "@/public/images/tier.png"
+import { useRouter } from "next/navigation"
+import { ChevronLeft, ChevronRight, Mail } from "lucide-react"
 
 export default function HomePage() {
-  const { push } = useRouter();
+  const { push } = useRouter()
 
   return (
     <div className="w-full h-full bg-[#1a1a1a] flex flex-col  justify-center items-center ">
@@ -96,5 +96,5 @@ export default function HomePage() {
         </div>
       </div>
     </div>
-  );
+  )
 }

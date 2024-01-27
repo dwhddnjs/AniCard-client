@@ -1,20 +1,16 @@
-import { PlayerTypes } from "@/app/roster/components/player-cards";
-import { create } from "zustand";
+"use client"
 
-export type selectedPlayerType = {
-  id: number;
-  position: string;
-  nickname: string;
-  img: string;
-};
+import { PlayerTypes } from "@/types/Player-type"
+import { SelectedPlayerTypes } from "@/types/Roster-type"
+import { create } from "zustand"
 
 export interface useRosterBoxStoreTypes {
-  selectedPlayers: selectedPlayerType[];
-  rosterId: null | number;
-  onSelectPlayer: (type: string, player: PlayerTypes) => void;
-  onResetBox: () => void;
-  onUpdatePlayers: (players: selectedPlayerType[]) => void;
-  setRosterId: (rosterId: number) => void;
+  selectedPlayers: SelectedPlayerTypes[]
+  rosterId: null | number
+  onSelectPlayer: (type: string, player: PlayerTypes) => void
+  onResetBox: () => void
+  onUpdatePlayers: (players: SelectedPlayerTypes[]) => void
+  setRosterId: (rosterId: number) => void
 }
 
 export const useRosterBoxStore = create<useRosterBoxStoreTypes>((set, get) => ({
@@ -56,28 +52,28 @@ export const useRosterBoxStore = create<useRosterBoxStoreTypes>((set, get) => ({
   setRosterId: (rosterId: number) => {
     set({
       rosterId,
-    });
+    })
   },
 
   onSelectPlayer: (type: string, player: PlayerTypes) => {
-    const lowerType = type.toLowerCase();
-    const newArr = get().selectedPlayers;
-    const findIndex = newArr.findIndex((el) => el.position === lowerType);
+    const lowerType = type.toLowerCase()
+    const newArr = get().selectedPlayers
+    const findIndex = newArr.findIndex((el) => el.position === lowerType)
     if (newArr[findIndex]["nickname"] === player.nickname) {
-      newArr[findIndex]["img"] = "";
-      newArr[findIndex]["nickname"] = "";
+      newArr[findIndex]["img"] = ""
+      newArr[findIndex]["nickname"] = ""
     } else {
-      newArr[findIndex]["img"] = player.img;
-      newArr[findIndex]["nickname"] = player.nickname;
+      newArr[findIndex]["img"] = player.img
+      newArr[findIndex]["nickname"] = player.nickname
     }
     set({
       selectedPlayers: newArr,
-    });
+    })
   },
 
-  onUpdatePlayers: (players: selectedPlayerType[]) => {
-    const prevArr = get().selectedPlayers;
-    const result: selectedPlayerType[] = [];
+  onUpdatePlayers: (players: SelectedPlayerTypes[]) => {
+    const prevArr = get().selectedPlayers
+    const result: SelectedPlayerTypes[] = []
     prevArr.forEach((prevEl) => {
       players.forEach((el) => {
         if (prevEl.position === el.position) {
@@ -86,16 +82,16 @@ export const useRosterBoxStore = create<useRosterBoxStoreTypes>((set, get) => ({
             position: el.position,
             nickname: el.nickname,
             img: el.img,
-          };
+          }
 
-          result.push(newItem);
+          result.push(newItem)
         }
-      });
-    });
+      })
+    })
 
     set({
       selectedPlayers: result,
-    });
+    })
   },
 
   onResetBox: () => {
@@ -133,6 +129,6 @@ export const useRosterBoxStore = create<useRosterBoxStoreTypes>((set, get) => ({
         },
       ],
       rosterId: null,
-    });
+    })
   },
-}));
+}))

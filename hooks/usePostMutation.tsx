@@ -1,14 +1,17 @@
-import { API_KEYS } from "@/common/apiKeys";
-import { postRequest } from "@/common/axios";
-import { UseMutationResult, useMutation, useQueryClient } from "react-query";
-import { useToast } from "@/components/ui/use-toast";
+import { postRequest } from "@/common/axios"
+import {
+  UseMutationResult,
+  useMutation,
+  useQueryClient,
+} from "@tanstack/react-query"
+import { useToast } from "@/components/ui/use-toast"
 
 export const usePostMutation = (key: string) => {
-  const { toast } = useToast();
+  const { toast } = useToast()
   const {
     mutateAsync: trigger,
-    isLoading,
     isError,
+    isPending: isLoading,
   } = useMutation({
     mutationFn: (data?: any) => postRequest(key, data),
 
@@ -16,13 +19,13 @@ export const usePostMutation = (key: string) => {
       toast({
         variant: "destructive",
         title: `${error?.message}`,
-      });
+      })
     },
-  });
+  })
 
   return {
     trigger,
-    isLoading,
     isError,
-  };
-};
+    isLoading,
+  }
+}

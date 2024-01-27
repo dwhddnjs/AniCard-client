@@ -1,40 +1,26 @@
-"use client";
+"use client"
 
-import { useRoster } from "@/hooks/useRoster";
-import React, { Suspense, useEffect, useState } from "react";
-import { PlayerCards } from "./components/player-cards";
-import TopIcon from "@/public/images/top_icon_p.svg";
-import JglIcon from "@/public/images/jgl_icon_p.svg";
-import MidIcon from "@/public/images/mid_icon_p.svg";
-import AdIcon from "@/public/images/ad_icon_p.svg";
-import SptIcon from "@/public/images/spt_icon_p.svg";
-import { RosterBox } from "./components/roster-box";
-import { useRosterBoxStore } from "@/hooks/useRosterBoxStore";
-import Image from "next/image";
-import EsportIcon from "@/public/images/esport_icon.svg";
-import EmptyEsportIcon from "@/public/images/empty_esport_icon.svg";
-import { Button } from "@/components/ui/button";
-import { ChevronsDown, ChevronsUp, Divide } from "lucide-react";
-import { cn } from "@/lib/utils";
-import { useSavedRoster } from "@/hooks/useSavedRoster";
-import { RosterCard, RosterTypes } from "./components/roster-card";
-import { Skeleton } from "@/components/ui/skeleton";
-import { EmptyState } from "@/components/empty-state";
-import { useIsLogin } from "@/hooks/useIsLoginStore";
-import { useSession } from "next-auth/react";
-
-export type selectedPlayerType = {
-  id: number;
-  position: string;
-  nickname: string;
-  img: string;
-};
+import { useRoster } from "@/hooks/useRoster"
+import React, { useState } from "react"
+import { PlayerCards } from "./components/player-cards"
+import TopIcon from "@/public/images/top_icon_p.svg"
+import JglIcon from "@/public/images/jgl_icon_p.svg"
+import MidIcon from "@/public/images/mid_icon_p.svg"
+import AdIcon from "@/public/images/ad_icon_p.svg"
+import SptIcon from "@/public/images/spt_icon_p.svg"
+import { RosterBox } from "./components/roster-box"
+import { useRosterBoxStore } from "@/hooks/useRosterBoxStore"
+import { Button } from "@/components/ui/button"
+import { ChevronsDown, ChevronsUp, Divide } from "lucide-react"
+import { cn } from "@/lib/utils"
+import { useSavedRoster } from "@/hooks/useSavedRoster"
+import { RosterCard } from "./components/roster-card"
+import { EmptyState } from "@/components/empty-state"
+import { RosterTypes } from "@/types/Roster-type"
 
 export default function RosterPage() {
-  const { data, isLoading } = useRoster();
-  const { data: rosterData } = useSavedRoster();
-  console.log("rosterData: ", rosterData);
-  const { isLogin } = useIsLogin();
+  const { data, isLoading } = useRoster()
+  const { data: rosterData } = useSavedRoster()
 
   const {
     selectedPlayers,
@@ -42,13 +28,13 @@ export default function RosterPage() {
     onSelectPlayer,
     onUpdatePlayers,
     setRosterId,
-  } = useRosterBoxStore();
-  const [disable, setDisable] = useState(false);
+  } = useRosterBoxStore()
+  const [disable, setDisable] = useState(false)
 
   const onSelectCard = (roster: RosterTypes) => {
-    onUpdatePlayers(roster.players);
-    setRosterId(roster.id);
-  };
+    onUpdatePlayers(roster.players)
+    setRosterId(roster.id)
+  }
 
   return (
     <div className=" min-h-screen min-w-screen flex">
@@ -125,5 +111,5 @@ export default function RosterPage() {
       </div>
       {!disable && <RosterBox selectedPlayers={selectedPlayers} />}
     </div>
-  );
+  )
 }

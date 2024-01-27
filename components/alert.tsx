@@ -1,14 +1,7 @@
-import React from "react";
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogHeader,
-  DialogTitle,
-} from "./ui/dialog";
-import { cn } from "@/lib/utils";
-import { DialogClose } from "@radix-ui/react-dialog";
-import { X } from "lucide-react";
+"use client"
+
+import React from "react"
+import { X } from "lucide-react"
 import {
   AlertDialog,
   AlertDialogCancel,
@@ -18,17 +11,17 @@ import {
   AlertDialogTitle,
   AlertDialogAction,
   AlertDialogContent,
-} from "@/components/ui/alert-dialog";
+} from "@/components/ui/alert-dialog"
 
 interface ModalProps {
-  title?: string;
-  description?: string;
-  isOpen: boolean;
-  onOpenChange: React.Dispatch<React.SetStateAction<boolean>>;
-  children: React.ReactNode;
-  className?: string;
-  disbleClose?: boolean;
-  onClick?: () => void;
+  title?: string
+  description?: string
+  isOpen: boolean
+  onOpenChange: React.Dispatch<React.SetStateAction<boolean>>
+  children: React.ReactNode
+  className?: string
+  disbleClose?: boolean
+  onClick?: () => void
 }
 
 export const Alert: React.FC<ModalProps> = ({
@@ -69,5 +62,5 @@ export const Alert: React.FC<ModalProps> = ({
         </div>
       </AlertDialogContent>
     </AlertDialog>
-  );
-};
+  )
+}

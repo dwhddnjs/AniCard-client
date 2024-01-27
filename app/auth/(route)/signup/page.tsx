@@ -1,8 +1,8 @@
-"use client";
+"use client"
 
-import React from "react";
-import { zodResolver } from "@hookform/resolvers/zod";
-import * as z from "zod";
+import React from "react"
+import { zodResolver } from "@hookform/resolvers/zod"
+import * as z from "zod"
 import {
   Form,
   FormControl,
@@ -10,21 +10,21 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button";
-import { useForm } from "react-hook-form";
-import { API_KEYS } from "@/common/apiKeys";
-import { usePostMutation } from "@/hooks/usePostMutation";
-import { useRouter } from "next/navigation";
-import EsportsIcon from "@/public/images/esport_icon.svg";
-import { useToast } from "@/components/ui/use-toast";
-import Image from "next/image";
+} from "@/components/ui/form"
+import { Input } from "@/components/ui/input"
+import { Button } from "@/components/ui/button"
+import { useForm } from "react-hook-form"
+import { API_KEYS } from "@/common/apiKeys"
+import { usePostMutation } from "@/hooks/usePostMutation"
+import { useRouter } from "next/navigation"
+import EsportsIcon from "@/public/images/esport_icon.svg"
+import { useToast } from "@/components/ui/use-toast"
+import Image from "next/image"
 
 function SignupPage() {
-  const { trigger, isLoading } = usePostMutation(API_KEYS.signup);
-  const { toast } = useToast();
-  const { push } = useRouter();
+  const { trigger, isLoading } = usePostMutation(API_KEYS.signup)
+  const { toast } = useToast()
+  const { push } = useRouter()
 
   const formSchema = z
     .object({
@@ -40,10 +40,10 @@ function SignupPage() {
         .string()
         .min(7, { message: "최소 7글자 이상 작성해주세요" }),
     })
-    .refine((data: any) => data.password === data.checkPassword, {
+    .refine((data) => data.password === data.checkPassword, {
       message: "비밀번호가 일치하지 않습니다",
       path: ["checkPassword"],
-    });
+    })
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -53,40 +53,41 @@ function SignupPage() {
       password: "",
       checkPassword: "",
     },
-  });
+  })
 
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
+    console.log("values: ", values)
     const requestBody = {
       name: values.name,
       email: values.email,
       password: values.password,
-    };
+    }
     try {
-      const response = await trigger(requestBody);
+      const response = await trigger(requestBody)
       if (response) {
         localStorage.setItem(
           "access-token",
           response?.data?.tokens?.access_token
-        );
+        )
         localStorage.setItem(
           "refresh-token",
           response?.data?.tokens?.refresh_token
-        );
-        push("/auth/login");
+        )
+        push("/auth/login")
         toast({
           title: "회원가입 되었습니다",
-        });
+        })
       } else {
         toast({
           variant: "destructive",
           title: "이미 존재하는 계정입니다",
-        });
+        })
       }
     } catch (error) {
-      console.log("request", error);
-      return;
+      console.log("request", error)
+      return
     }
-  };
+  }
 
   return (
     <div className="bg-[#1a1a1a] flex justify-end">
@@ -197,8 +198,8 @@ function SignupPage() {
                   type="submit"
                   disabled={isLoading}
                   onClick={(e) => {
-                    e.preventDefault();
-                    push("/auth/login");
+                    e.preventDefault()
+                    push("/auth/login")
                   }}
                   className="bg-transparent p-0 text-xs text-[#74A99C] hover:bg-transparent"
                 >
@@ -213,7 +214,7 @@ function SignupPage() {
         </div>
       </div>
     </div>
-  );
+  )
 }
 
-export default SignupPage;
+export default SignupPage

@@ -8,4 +8,4 @@ export const API_KEYS = {
   card: `/api/v1/card`,
   roster: `/api/v1/roster`,
   news: `/api/v1/news`,
-};
+}

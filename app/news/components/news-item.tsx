@@ -1,11 +1,13 @@
-import { removeHtmlAndQuote } from "@/common/function";
-import { Link as LinkIcon } from "lucide-react";
-import Link from "next/link";
-import React, { FC } from "react";
-import { ArticleTypes } from "../page";
+"use client"
+
+import { removeHtmlAndQuote } from "@/common/function"
+import { ArticleTypes } from "@/types/Article-type"
+import { Link as LinkIcon } from "lucide-react"
+import Link from "next/link"
+import React, { FC } from "react"
 
 interface NewsItemProps {
-  article: ArticleTypes;
+  article: ArticleTypes
 }
 
 export const NewsItem: FC<NewsItemProps> = ({ article }) => {
@@ -34,5 +36,5 @@ export const NewsItem: FC<NewsItemProps> = ({ article }) => {
         </div>
       </div>
     </div>
-  );
-};
+  )
+}

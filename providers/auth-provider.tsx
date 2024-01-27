@@ -1,25 +1,25 @@
-"use client";
+"use client"
 
-import { usePathname, useRouter } from "next/navigation";
-import React, { useEffect, useState } from "react";
-import jwt from "jsonwebtoken";
-import axios from "axios";
-import { API_KEYS } from "@/common/apiKeys";
-import { useIsLogin } from "@/hooks/useIsLoginStore";
-import { useSession } from "next-auth/react";
-import { postRequest } from "@/common/axios";
+import { usePathname, useRouter } from "next/navigation"
+import React, { useEffect, useState } from "react"
+import jwt from "jsonwebtoken"
+import axios from "axios"
+import { API_KEYS } from "@/common/apiKeys"
+import { useIsLogin } from "@/hooks/useIsLoginStore"
+import { useSession } from "next-auth/react"
+import { postRequest } from "@/common/axios"
 
 export default function AuthProvider({
   children,
 }: {
-  children: React.ReactNode;
+  children: React.ReactNode
 }) {
-  const { push, replace } = useRouter();
-  const { data: session } = useSession();
+  const { push, replace } = useRouter()
+  const { data: session } = useSession()
 
-  const pathname = usePathname();
+  const pathname = usePathname()
 
-  const { isLogin, setIsLogin } = useIsLogin();
+  const { isLogin, setIsLogin } = useIsLogin()
 
   const getRefreshToken = async (rt: string) => {
     const res = await axios({
@@ -28,63 +28,62 @@ export default function AuthProvider({
       headers: {
         Authorization: `Refresh ${rt}`,
       },
-    });
+    })
 
-    localStorage.setItem("access-token", res?.data?.data?.access_token);
-    localStorage.setItem("refresh-token", res?.data?.data?.refresh_token);
-    setIsLogin(true);
-  };
+    localStorage.setItem("access-token", res?.data?.data?.access_token)
+    localStorage.setItem("refresh-token", res?.data?.data?.refresh_token)
+    setIsLogin(true)
+  }
 
   useEffect(() => {
-    (async () => {
+    ;(async () => {
       if (session) {
         try {
           const requestBody = {
             email: session?.user?.email,
             name: session?.user?.name,
-          };
-          const res = await postRequest(API_KEYS.google, requestBody);
-          console.log("res: ", res);
-          localStorage.setItem("access-token", res?.data?.tokens?.access_token);
+          }
+          const res = await postRequest(API_KEYS.google, requestBody)
+          localStorage.setItem("access-token", res?.data?.tokens?.access_token)
           localStorage.setItem(
             "refresh-token",
             res?.data?.tokens?.refresh_token
-          );
+          )
         } catch (error) {
-          console.log("error: ", error);
+          console.log("error: ", error)
         }
       }
-    })();
-  }, [session]);
+    })()
+  }, [session])
 
   useEffect(() => {
-    (async () => {
-      const token = localStorage.getItem("access-token") as string;
-      const refreshToken = localStorage.getItem("refresh-token") as string;
+    ;(async () => {
+      const token = localStorage.getItem("access-token") as string
+      const refreshToken = localStorage.getItem("refresh-token") as string
       try {
         const decodedToken = jwt.verify(
           token,
           process.env.NEXT_PUBLIC_ACCESS_SECRET_KEY as string
-        ) as { exp: number };
+        ) as { exp: number }
 
-        const currentTimestamp = Math.floor(Date.now() / 1000);
+        const currentTimestamp = Math.floor(Date.now() / 1000)
 
         if (decodedToken.exp <= currentTimestamp) {
-          await getRefreshToken(refreshToken);
+          await getRefreshToken(refreshToken)
         } else {
-          setIsLogin(true);
+          setIsLogin(true)
         }
       } catch (error) {
         if (error instanceof jwt.TokenExpiredError) {
-          await getRefreshToken(refreshToken);
+          await getRefreshToken(refreshToken)
         }
       }
 
       if (isLogin && token && pathname === "/auth/login") {
-        return replace("/roster");
+        return replace("/roster")
       }
-    })();
-  }, [pathname, isLogin]);
+    })()
+  }, [pathname, isLogin])
 
-  return <div>{children}</div>;
+  return <div>{children}</div>
 }

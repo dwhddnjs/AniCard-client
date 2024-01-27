@@ -1,28 +1,28 @@
-"use client";
+"use client"
 
-import React from "react";
-import { useParams, usePathname, useRouter } from "next/navigation";
-import Link from "next/link";
-import { cn } from "@/lib/utils";
-import EsportIcon from "@/public/images/esport_icon.svg";
-import Image from "next/image";
-import { Button } from "./ui/button";
-import { useIsLogin } from "@/hooks/useIsLoginStore";
-import { usePostMutation } from "@/hooks/usePostMutation";
-import { API_KEYS } from "@/common/apiKeys";
-import { useToast } from "./ui/use-toast";
-import { useQueryClient } from "react-query";
+import React from "react"
+import { useParams, usePathname, useRouter } from "next/navigation"
+import Link from "next/link"
+import { cn } from "@/lib/utils"
+import EsportIcon from "@/public/images/esport_icon.svg"
+import Image from "next/image"
+import { Button } from "./ui/button"
+import { useIsLogin } from "@/hooks/useIsLoginStore"
+import { usePostMutation } from "@/hooks/usePostMutation"
+import { API_KEYS } from "@/common/apiKeys"
+import { useToast } from "./ui/use-toast"
+import { useQueryClient } from "@tanstack/react-query"
 
 export const MainHeader = ({
   className,
   ...props
 }: React.HtmlHTMLAttributes<HTMLElement>) => {
-  const pathname = usePathname();
-  const { replace } = useRouter();
-  const { isLogin, setIsLogin } = useIsLogin();
-  const { trigger } = usePostMutation(API_KEYS.logout);
-  const { toast } = useToast();
-  const queryClient = useQueryClient();
+  const pathname = usePathname()
+  const { replace } = useRouter()
+  const { isLogin, setIsLogin } = useIsLogin()
+  const { trigger } = usePostMutation(API_KEYS.logout)
+  const { toast } = useToast()
+  const queryClient = useQueryClient()
 
   const routes = [
     {
@@ -41,23 +41,23 @@ export const MainHeader = ({
       label: "News",
       active: pathname === `/news`,
     },
-  ];
+  ]
 
   const onLogout = async () => {
     try {
-      await trigger({});
+      await trigger({})
       toast({
         title: "로그아웃 되었습니디",
-      });
-      replace("/");
-      setIsLogin(false);
-      localStorage.removeItem("access-token");
-      localStorage.removeItem("refresh-token");
-      queryClient.clear();
+      })
+      replace("/")
+      setIsLogin(false)
+      localStorage.removeItem("access-token")
+      localStorage.removeItem("refresh-token")
+      queryClient.clear()
     } catch (error) {
-      console.log(error);
+      console.log(error)
     }
-  };
+  }
 
   if (pathname !== "/auth/login" && pathname !== "/auth/signup") {
     return (
@@ -94,6 +94,6 @@ export const MainHeader = ({
           </Button>
         )}
       </div>
-    );
+    )
   }
-};
+}

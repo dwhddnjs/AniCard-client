@@ -1,6 +1,6 @@
-import NextAuth from "next-auth";
+import NextAuth from "next-auth"
 
-import GoogleProvider from "next-auth/providers/google";
+import GoogleProvider from "next-auth/providers/google"
 
 const handler = NextAuth({
   providers: [
@@ -12,12 +12,12 @@ const handler = NextAuth({
   secret: process.env.NEXTAUTH_URL,
   callbacks: {
     async session({ session, token, user }) {
-      return session;
+      return session
     },
     async redirect() {
-      return `${process.env.NEXT_PUBLIC_URL}/roster`;
+      return `${process.env.NEXT_PUBLIC_URL}/roster`
     },
   },
-});
+})
 
-export { handler as GET, handler as POST };
+export { handler as GET, handler as POST }

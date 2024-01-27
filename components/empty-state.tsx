@@ -1,6 +1,8 @@
-import Image from "next/image";
-import React from "react";
-import EmptyEsportIcon from "@/public/images/empty_esport_icon.svg";
+"use client"
+
+import Image from "next/image"
+import React from "react"
+import EmptyEsportIcon from "@/public/images/empty_esport_icon.svg"
 
 export const EmptyState = () => {
   return (
@@ -11,5 +13,5 @@ export const EmptyState = () => {
         없습니다
       </p>
     </>
-  );
-};
+  )
+}

@@ -1,11 +1,13 @@
-import { PlayerTypes } from "@/app/roster/components/player-cards";
-import Image from "next/image";
-import React, { FC } from "react";
+"use client"
 
-export type TierPlayerTypes = PlayerTypes & { id: string };
+import { PlayerTypes } from "@/types/Player-type"
+import Image from "next/image"
+import React, { FC } from "react"
+
+export type TierPlayerTypes = PlayerTypes & { id: string }
 
 interface TierPlayerProps {
-  player: TierPlayerTypes;
+  player: TierPlayerTypes
 }
 
 export const TierPlayer: FC<TierPlayerProps> = ({ player }) => {
@@ -26,5 +28,5 @@ export const TierPlayer: FC<TierPlayerProps> = ({ player }) => {
         </div>
       </div>
     </div>
-  );
-};
+  )
+}

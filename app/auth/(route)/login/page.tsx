@@ -1,8 +1,8 @@
-"use client";
+"use client"
 
-import React from "react";
-import { zodResolver } from "@hookform/resolvers/zod";
-import * as z from "zod";
+import React from "react"
+import { zodResolver } from "@hookform/resolvers/zod"
+import * as z from "zod"
 import {
   Form,
   FormControl,
@@ -10,26 +10,26 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "@/components/ui/form";
-import { useForm } from "react-hook-form";
-import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button";
-import { API_KEYS } from "@/common/apiKeys";
-import { useRouter, redirect } from "next/navigation";
-import { useRouter as dd } from "next/router";
-import { usePostMutation } from "@/hooks/usePostMutation";
-import EsportsIcon from "@/public/images/esport_icon.svg";
-import Image from "next/image";
-import { useIsLogin } from "@/hooks/useIsLoginStore";
-import { useToast } from "@/components/ui/use-toast";
-import { signIn, useSession } from "next-auth/react";
-import Google from "@/public/images/google.svg";
+} from "@/components/ui/form"
+import { useForm } from "react-hook-form"
+import { Input } from "@/components/ui/input"
+import { Button } from "@/components/ui/button"
+import { API_KEYS } from "@/common/apiKeys"
+import { useRouter, redirect } from "next/navigation"
+import { useRouter as dd } from "next/router"
+import { usePostMutation } from "@/hooks/usePostMutation"
+import EsportsIcon from "@/public/images/esport_icon.svg"
+import Image from "next/image"
+import { useIsLogin } from "@/hooks/useIsLoginStore"
+import { useToast } from "@/components/ui/use-toast"
+import { signIn, useSession } from "next-auth/react"
+import Google from "@/public/images/google.svg"
 
 function LoginPage() {
-  const { trigger, isLoading, isError } = usePostMutation(API_KEYS.login);
-  const { toast } = useToast();
-  const { push, replace } = useRouter();
-  const { setIsLogin } = useIsLogin();
+  const { trigger, isLoading, isError } = usePostMutation(API_KEYS.login)
+  const { toast } = useToast()
+  const { push, replace } = useRouter()
+  const { setIsLogin } = useIsLogin()
 
   const formSchema = z.object({
     email: z
@@ -37,7 +37,7 @@ function LoginPage() {
       .min(1, { message: "최소 1글자 이상 작성해주세요" })
       .email("이메일 주소가 유효하지 않습니다"),
     password: z.string().min(7, { message: "최소 7자 이상 작성해주세요" }),
-  });
+  })
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -45,37 +45,37 @@ function LoginPage() {
       email: "",
       password: "",
     },
-  });
+  })
 
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
     const requestBody = {
       email: values.email,
       password: values.password,
-    };
+    }
 
     try {
-      const response = await trigger(requestBody);
+      const response = await trigger(requestBody)
       if (response) {
         localStorage.setItem(
           "access-token",
           response?.data?.tokens?.access_token
-        );
+        )
         localStorage.setItem(
           "refresh-token",
           response?.data?.tokens?.refresh_token
-        );
-        push("/roster");
-        setIsLogin(true);
+        )
+        push("/roster")
+        setIsLogin(true)
       } else {
         toast({
           variant: "destructive",
           title: "아이디가 존재하지 않습니다.",
-        });
+        })
       }
     } catch (error) {
-      console.log("request", error);
+      console.log("request", error)
     }
-  };
+  }
 
   return (
     <div className="bg-[#1a1a1a] flex justify-end">
@@ -150,8 +150,8 @@ function LoginPage() {
                 <Button
                   className="w-full h-[46px] bg-[#eeeeee] text-sm font-bold flex flex-start space-x-3 rounded-none"
                   onClick={(e) => {
-                    e.preventDefault();
-                    signIn("google");
+                    e.preventDefault()
+                    signIn("google")
                   }}
                   type="submit"
                   disabled={isLoading}
@@ -164,8 +164,8 @@ function LoginPage() {
                   type="submit"
                   disabled={isLoading}
                   onClick={(e) => {
-                    e.preventDefault();
-                    push("/auth/signup");
+                    e.preventDefault()
+                    push("/auth/signup")
                   }}
                   className="bg-transparent p-0 text-xs text-[#74A99C] hover:bg-transparent mt-3"
                 >
@@ -180,7 +180,7 @@ function LoginPage() {
         </div>
       </div>
     </div>
-  );
+  )
 }
 
-export default LoginPage;
+export default LoginPage

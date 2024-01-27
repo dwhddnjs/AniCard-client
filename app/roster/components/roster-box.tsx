@@ -1,93 +1,83 @@
-import Image from "next/image";
-import esportIcon from "@/public/images/esport_icon.svg";
-import React, { useEffect, useState } from "react";
-import { Button } from "@/components/ui/button";
-import { selectedPlayerType } from "../page";
+"use client"
 
-import { Check, RotateCcw, ChevronsDown, ChevronsUp } from "lucide-react";
-import { cn } from "@/lib/utils";
-import { usePostMutation } from "@/hooks/usePostMutation";
-import { API_KEYS } from "@/common/apiKeys";
-import { Modal } from "@/components/modal";
-import { Input } from "@/components/ui/input";
-import { useSaveRosterMutation } from "@/hooks/useSaveRosterMutation";
-import { useRosterBoxStore } from "@/hooks/useRosterBoxStore";
-import { PlayerTypes } from "./roster-card";
-import { useToast } from "@/components/ui/use-toast";
-import { useUpdateRosterMutation } from "@/hooks/useUpdateRosterMutation";
-import {
-  AlertDialog,
-  AlertDialogCancel,
-  AlertDialogFooter,
-  AlertDialogHeader,
-  AlertDialogDescription,
-  AlertDialogTitle,
-  AlertDialogAction,
-  AlertDialogContent,
-} from "@/components/ui/alert-dialog";
-import { useIsLogin } from "@/hooks/useIsLoginStore";
-import { useRouter } from "next/navigation";
-import { Alert } from "@/components/alert";
-import { renderPositionImg } from "@/common/function";
+import Image from "next/image"
+import esportIcon from "@/public/images/esport_icon.svg"
+import React, { useEffect, useState } from "react"
+import { Button } from "@/components/ui/button"
+
+import { Check, RotateCcw, ChevronsDown, ChevronsUp } from "lucide-react"
+import { usePostMutation } from "@/hooks/usePostMutation"
+import { API_KEYS } from "@/common/apiKeys"
+import { Modal } from "@/components/modal"
+import { Input } from "@/components/ui/input"
+import { useSaveRosterMutation } from "@/hooks/useSaveRosterMutation"
+import { useRosterBoxStore } from "@/hooks/useRosterBoxStore"
+import { useToast } from "@/components/ui/use-toast"
+import { useUpdateRosterMutation } from "@/hooks/useUpdateRosterMutation"
+import { useIsLogin } from "@/hooks/useIsLoginStore"
+import { useRouter } from "next/navigation"
+import { Alert } from "@/components/alert"
+import { renderPositionImg } from "@/common/function"
+import { SelectedPlayerTypes } from "@/types/Roster-type"
 
 interface RosterBoxProps {
-  selectedPlayers: selectedPlayerType[];
+  selectedPlayers: SelectedPlayerTypes[]
 }
 
 export const RosterBox: React.FC<RosterBoxProps> = ({ selectedPlayers }) => {
-  const { trigger, isError } = usePostMutation(API_KEYS.roster);
-  const [open, setOpen] = useState(false);
-  const [openAlert, setOpenAlert] = useState(false);
-  const [inputValue, setInputValue] = useState("");
-  const { mutate: saveTrigger } = useSaveRosterMutation();
-  const { onResetBox, rosterId } = useRosterBoxStore();
-  const { mutate: updateTrigger } = useUpdateRosterMutation();
-  const { isLogin } = useIsLogin();
-  const { replace } = useRouter();
+  const { trigger, isError } = usePostMutation(API_KEYS.roster)
+  const [open, setOpen] = useState(false)
+  const [openAlert, setOpenAlert] = useState(false)
+  const [inputValue, setInputValue] = useState("")
+  const { mutate: saveTrigger } = useSaveRosterMutation()
+  const { onResetBox, rosterId } = useRosterBoxStore()
+  const { mutate: updateTrigger } = useUpdateRosterMutation()
+  const { isLogin } = useIsLogin()
+  const { replace } = useRouter()
 
-  const { toast } = useToast();
+  const { toast } = useToast()
 
-  const onSaveRoster = () => {
+  const onSaveRoster = async () => {
     const removeIdPlayers = selectedPlayers.map((el) => {
       return {
         img: el.img,
         nickname: el.nickname,
         position: el.position,
-      };
-    });
+      }
+    })
 
     const requestBody = {
       title: inputValue,
       players: removeIdPlayers,
-    };
+    }
 
     try {
       if (rosterId) {
         const requestBodyAddedId = {
           ...requestBody,
           id: rosterId,
-        };
-        updateTrigger(requestBodyAddedId);
+        }
+        updateTrigger(requestBodyAddedId)
       } else {
-        saveTrigger(requestBody);
+        saveTrigger(requestBody)
       }
     } catch (error) {
-      console.log(error);
+      console.log(error)
     } finally {
-      onResetBox();
-      setInputValue("");
-      setOpen(false);
+      onResetBox()
+      setInputValue("")
+      setOpen(false)
     }
-  };
+  }
 
   const onChangeText = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setInputValue(e.target.value);
-  };
+    setInputValue(e.target.value)
+  }
 
   const onOpenModal = () => {
     if (!isLogin) {
-      setOpenAlert(true);
-      return;
+      setOpenAlert(true)
+      return
     }
 
     selectedPlayers.forEach((el) => {
@@ -95,13 +85,13 @@ export const RosterBox: React.FC<RosterBoxProps> = ({ selectedPlayers }) => {
         toast({
           title: "각 라인별 선수들을 모두 채워주세요.",
           variant: "destructive",
-        });
-        setOpen(false);
+        })
+        setOpen(false)
       } else {
-        setOpen(true);
+        setOpen(true)
       }
-    });
-  };
+    })
+  }
 
   return (
     <div className="flex fixed w-fit bottom-0 left-1/3 -translate-x-1/3">
@@ -177,5 +167,5 @@ export const RosterBox: React.FC<RosterBoxProps> = ({ selectedPlayers }) => {
         </div>
       </Alert>
     </div>
-  );
-};
+  )
+}
