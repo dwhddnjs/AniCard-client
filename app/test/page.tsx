@@ -36,18 +36,18 @@ export default function TestPage() {
     c: [],
   })
 
-  const onDragEnd = (event: any) => {
-    const { active, over } = event
-    console.log("over: ", over)
-    console.log("active: ", active)
-    if (active.id !== over.id) {
-      setItems((items) => {
-        const activeIndex = items.indexOf(active.id)
-        const overIndex = items.indexOf(over.id)
-        return arrayMove(items, activeIndex, overIndex)
-      })
-    }
-  }
+  // const onDragEnd = (event: any) => {
+  //   const { active, over } = event
+  //   console.log("over: ", over)
+  //   console.log("active: ", active)
+  //   if (active.id !== over.id) {
+  //     setItems((items) => {
+  //       const activeIndex = items.indexOf(active.id)
+  //       const overIndex = items.indexOf(over.id)
+  //       return arrayMove(items, activeIndex, overIndex)
+  //     })
+  //   }
+  // }
 
   return (
     <div className="pt-[100px] h-screen">
@@ -72,7 +72,7 @@ export default function TestPage() {
         collisionDetection={closestCorners}
         // onDragStart={handleDragStart}
         // onDragOver={handleDragOver}
-        onDragEnd={onDragEnd}
+        // onDragEnd={onDragEnd}
       >
         <RowContainer id="s" title="S" items={items.s} />
         <RowContainer id="a" title="A" items={items.a} />
